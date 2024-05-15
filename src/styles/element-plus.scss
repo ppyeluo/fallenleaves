@@ -1,0 +1,10 @@
+// 自定义elementPlus主题样式
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'primary': (
+      'base': #ff4614,
+    ),
+  ),
+);
+
+@use "element-plus/theme-chalk/src/index.scss" as *;
