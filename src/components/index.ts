@@ -11,6 +11,7 @@ const components: { [name: string]: Component }  = {
     MyFooter,
     MyHeader,
     NavTitle
+    
 }
 
 export default {
