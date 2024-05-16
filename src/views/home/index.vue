@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang='ts'>
-defineOptions({ name: 'home' })
+defineOptions({ name: 'Home' })
 import Banner from './banner/index.vue'
 import NewLanuch from './newLanuch/index.vue'
 import HotBuy from './hotBuy/index.vue'

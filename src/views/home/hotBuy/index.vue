@@ -1,22 +1,46 @@
 <template>
-    <div class="hotBuy_container">
-        <div class="title">
-            <h4>热门购买</h4>
-            <time class="sub">最近更新：{{ getCurrentTime() }}</time>
-        </div>
-        <div class="content">
-            <div @click="router.push(`/detail?id=${item.id}`)" class="contentItem" v-for="item in hotBuyList" :key="item.id">
-                <div class="image">
-                    <img :src="item.picture" width="100%" height="100%">
+    <el-skeleton animated :loading="loading" :throttle="500">
+        <template #template>
+            <div class="hotBuy_container">
+                <div class="title">
+                    <h4>热门购买</h4>
+                    <time class="sub"><el-skeleton-item variant="text" /></time>
                 </div>
-                <div class="info">
-                    <div class="name">{{ item.name }}</div>
-                    <div class="flowerLanguage">{{ item.flowerLanguage }}</div>
-                    <div class="sold">已售{{ item.sold }}</div>
+                <div class="content">
+                    <div class="contentItem" v-for="item in 5" :key="item">
+                        <div class="image">
+                            <el-skeleton-item variant="image" style=" width:100%;height:100%"/>
+                        </div>
+                        <div class="info">
+                            <div class="name"><el-skeleton-item variant="text" /></div>
+                            <div class="flowerLanguage"><el-skeleton-item variant="text" /></div>
+                            <div class="sold"><el-skeleton-item variant="text" /></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </template>
+        <template #default>
+            <div class="hotBuy_container">
+                <div class="title">
+                    <h4>热门购买</h4>
+                    <time class="sub">最近更新：{{ getCurrentTime() }}</time>
+                </div>
+                <div class="content">
+                    <div @click="router.push(`/detail?id=${item.id}`)" class="contentItem" v-for="item in hotBuyList" :key="item.id">
+                        <div class="image">
+                            <img :src="item.picture" width="100%" height="100%">
+                        </div>
+                        <div class="info">
+                            <div class="name">{{ item.name }}</div>
+                            <div class="flowerLanguage">{{ item.flowerLanguage }}</div>
+                            <div class="sold">已售{{ item.sold }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </el-skeleton>
 </template>
 
 <script setup lang='ts'>
@@ -27,6 +51,7 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
+const loading = ref<boolean>(true)
 
 let hotBuyList = ref<Commodity[]>([])
 
@@ -34,6 +59,7 @@ const getHotBuy = async () => {
     const result: Result<Commodity[]> = await reqHotBuy()
     if(result.code === 200){
         hotBuyList.value = result.data
+        loading.value = false
     }
 }
 // 得到实时时间

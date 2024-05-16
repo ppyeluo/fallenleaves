@@ -1,24 +1,49 @@
 <template>
-    <div class="newLanuch">
-        <div class="title">
-            <h3>新品上架</h3>
-            <span :class="{ 'active': typeActive === '' }" @mouseenter="changeType('')">全部</span>
-            <span :class="{ 'active': typeActive === t.type }" @mouseenter="changeType(t.type)" v-for="t in typeList" :key="t.type">{{ t.typeName }}</span>
-        </div>
-        <div class="content">
-            <div @click="router.push(`/detail?id=${item.id}`)" class="contentItem" v-for="item in newLanuchList" :key="item.id">
-                <div class="image"><img :src="item.picture" width="100%" height="100%"></div>
-                <div class="info">
-                    <div class="name">{{ item.name }}</div>
-                    <div class="flowerLanguage">{{ item.flowerLanguage }}</div>
-                    <div class="sell">
-                        <time class="sold">{{ item.listing_time }}上架</time>
-                        <div class="price">&yen;{{ item.price }}</div>
+    <el-skeleton animated :loading="loading" :throttle="2000">
+        <template #template>
+            <div class="newLanuch">
+                <div class="title">
+                    <h3>新品上架</h3>
+                    <span v-for="_i in 5"><el-skeleton-item variant="text" style="width: 2em;" /></span>
+                </div>
+                <div class="content">
+                    <div class="contentItem" v-for="item in 6" :key="item">
+                        <div class="image"><el-skeleton-item variant="image" style="width: 100%;height: 100%;" /></div>
+                        <div class="info">
+                            <div class="name"><el-skeleton-item variant="text" /></div>
+                            <div class="flowerLanguage"><el-skeleton-item variant="text" /></div>
+                            <div class="sell">
+                                <time class="sold"><el-skeleton-item variant="text" /></time>
+                                <div class="price"><el-skeleton-item variant="text" /></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </template>
+        <template #default>
+            <div class="newLanuch">
+                <div class="title">
+                    <h3>新品上架</h3>
+                    <span :class="{ 'active': typeActive === '' }" @mouseenter="changeType('')">全部</span>
+                    <span :class="{ 'active': typeActive === t.type }" @mouseenter="changeType(t.type)" v-for="t in typeList" :key="t.type">{{ t.typeName }}</span>
+                </div>
+                <div class="content">
+                    <div @click="router.push(`/detail?id=${item.id}`)" class="contentItem" v-for="item in newLanuchList" :key="item.id">
+                        <div class="image"><img :src="item.picture" width="100%" height="100%"></div>
+                        <div class="info">
+                            <div class="name">{{ item.name }}</div>
+                            <div class="flowerLanguage">{{ item.flowerLanguage }}</div>
+                            <div class="sell">
+                                <time class="sold">{{ item.listing_time }}上架</time>
+                                <div class="price">&yen;{{ item.price }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </el-skeleton>
 </template>
 
 <script setup lang='ts'>
@@ -29,6 +54,7 @@ import useCommodityStore from '@/store/modules/commodity';
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
+const loading = ref<boolean>(true)
 const router = useRouter()
 const commodityStore = useCommodityStore()
 let newLanuchList = ref<Commodity[]>([])
@@ -38,6 +64,7 @@ const getNewLanuch = async (type:string) => {
     let result:Result<Commodity[]> = await reqNewLanuch(type)
     if(result.code === 200){
         newLanuchList.value = result.data
+        loading.value = false
     }else{
         console.error('NewLanuch')
     }
