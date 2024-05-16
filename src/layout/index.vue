@@ -1,7 +1,5 @@
 <template>
     <div class="layout_container">
-        <!-- 侧边栏 -->
-        <DragPopWidget v-if="route.meta.dragPopWidget" />
         <div class="layout_sidebar">
             <Logo />
             <el-scrollbar class="scrollbar">
@@ -27,10 +25,6 @@ import Menu from './menu/index.vue'
 import Header from './header/index.vue'
 import Main from './main/index.vue'
 import Login from './login/index.vue'
-import DragPopWidget from './dragPopWidget/index.vue'
-import { useRoute } from 'vue-router'
-
-const route = useRoute()
 </script>
 
 <style scoped lang="scss">

@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="userStore.loginDialogVisible" width="30%" @close="closeDialog">
+    <el-dialog v-model="userStore.loginDialogVisible" width="30%" @close="closeDialog" z-index="10">
         <div v-if="state === 'login'" class="login_container">
             <div class="title"><span class="active">登录</span>&nbsp;&frasl;&nbsp;<span @click="state = 'register'">注册</span></div>
             <div class="bg_image"></div>
@@ -36,12 +36,17 @@
             </div>
         </div>
     </el-dialog>
+    <DragPopWidget v-if="route.meta.dragPopWidget" />
 </template>
 
 <script setup lang='ts'>
 defineOptions({ name: 'Login' })
 import useUserStore from '@/store/modules/user'
+import DragPopWidget from '@/layout/dragPopWidget/index.vue'
 import { reactive, ref } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 
 const userStore = useUserStore()
 // 声明当前用户是在进行登录状态还是注册状态，默认登录状态
