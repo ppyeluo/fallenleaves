@@ -1,6 +1,9 @@
 <template>
-    <div class="dragPopWidget_container">
+    <div class="dragPopWidget_container" v-if="!userStore.token" >
         <div class="widget">
+            <div class="poptip_container">
+              <div class="poptip_item">点我获取测试账号！😊</div>
+            </div>
             <div class="branch"></div>     
             <el-tooltip effect="light" placement="right">
                 <div class="flower"><SvgIcon name="sunflower" width="50px" height="50px" /></div>
@@ -32,7 +35,18 @@
 import useClipboard from 'vue-clipboard3'
 import setting from '@/setting'
 import { ElMessage } from 'element-plus';
+import { onMounted, ref } from 'vue';
+import useUserStore from '@/store/modules/user'
+const userStore = useUserStore()
 const { toClipboard } = useClipboard()
+// 页面挂载前提示框可见
+const visiblePoptip = ref<boolean>(true)
+onMounted(() => {
+  // 3秒后，提示框消失
+  setTimeout(() => {
+    visiblePoptip.value = false
+  }, 3000);
+})
 const toCopy = async (text:string) => {
   await toClipboard(text)
   ElMessage({
@@ -77,10 +91,61 @@ const toCopy = async (text:string) => {
     left: 260px;
     width: 100px;
     height: 100%;
-    z-index: 999;
+    z-index: 10;
 
     .widget{
-
+        .poptip_container{
+          position: absolute;
+          top: 40px;
+          left: 70px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          opacity: 1;
+          animation: fade-out 3s;
+          animation-iteration-count: 1;/* 动画执行1次 */
+          animation-fill-mode: forwards; /* 动画结束后保持最后一帧状态 */
+          animation-delay: 0s; /* 动画立即开始 */
+          .poptip_item{
+            background: linear-gradient(to right, #6b3fa0, #a56cc1, #d494d3);
+            border-radius: 20px;
+            padding: 12px 16px;
+            position: relative;
+            white-space: nowrap;
+          }
+          .poptip_item:before{
+            content: "";
+            position: absolute;
+            border-top: 10px solid transparent;
+            border-right: 20px solid #6b3fa0;
+            border-bottom: 10px solid transparent;
+            left: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+          @keyframes fade-out {
+            0% {
+              opacity: 1; /* 初始透明度为1 */
+            }
+            50% {
+              opacity: .7;
+            }
+            100% {
+              opacity: 0; /* 结束透明度为0 */
+              display: none;
+            }
+          }
+        }
+        .poptip::before{
+          content: "";
+          position: absolute;
+          top: 5px;
+          left: -10px;
+          width:25px;
+          height: 25px;
+          background-color: rgb(232, 200, 204);
+          transform: rotate(45deg);
+        }
         .branch{
             position: absolute;
             top: -20px;

@@ -16,7 +16,7 @@
                 </div>
             </template>
         </el-card>
-        <el-card shadow="never">
+        <el-card shadow="never" style="margin-bottom: 10px;">
             <template #header>
                 <div class="header">
                     <div class="left">
@@ -40,7 +40,7 @@
             <template #default>
                 <div class="main">
                     <div class="commodity">
-                        <div class="c_item" v-for="i in searchCommodityList">
+                        <div class="c_item" v-for="i in searchCommodityList" @click="router.push(`/detail?id=${i.id}`)">
                             <div class="img"><img :src="i.picture" width="100%" height="100%"></div>
                             <div class="desc">
                                 <el-text line-clamp="2">
@@ -49,7 +49,7 @@
                                 </el-text>
                             </div>
                             <div class="bottom">
-                                <div class="comment_count">{{ i.comments }}+评论</div>
+                                <div class="comment_count">{{ formatCommentNumber(i.comments) }}评论</div>
                                 <div class="price">&yen;{{ i.price }}</div>
                             </div>
                         </div>
@@ -140,6 +140,22 @@ const vHighlight:Directive = {
     el.innerHTML = html.replace(regex, `<span style="color:${color}">${searchText}</span>`);
   }
 }
+// 格式化评论数
+const formatCommentNumber = (num: number): string => {
+    if (num < 10) {
+        return num.toString() + '条'
+    } else if (num >= 10 && num < 50) {
+        return '10+'
+    } else if (num >= 50 && num < 100) {
+        return '50+'
+    } else if (num >= 100 && num < 500) {
+        return '100+'
+    } else if (num >= 500 && num < 999) {
+        return '500+'
+    } else {
+        return '999+'
+    }
+}
 </script>
 
 <style scoped lang='scss'>
@@ -147,6 +163,7 @@ const vHighlight:Directive = {
     .option{
         .option_item{
             display: flex;
+            cursor: pointer;
             .o_key{
                 width: 4em;
             }
@@ -176,6 +193,7 @@ const vHighlight:Directive = {
             .hl_item{
                 display: inline-block;
                 padding: 0.3em .6em;
+                cursor: pointer;
 
                 &.price{
                     display: flex;
@@ -227,6 +245,7 @@ const vHighlight:Directive = {
                 width: calc(25% - 1em);
                 padding: 1em;
                 margin-right: 1em;
+                cursor: pointer;
 
                 .img{
                     width: 100%;

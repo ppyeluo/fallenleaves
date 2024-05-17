@@ -16,7 +16,7 @@
 .main{
   padding-left: 1em;
   padding-bottom: 0;
-  min-height: calc(100vh - $base-footer-height - $base-header-height - $nav-title-height);
+  min-height: calc(100vh - $base-footer-height - $base-header-height);
 }
 .fade-enter-from {
   opacity: 0;

@@ -25,6 +25,7 @@ const commodityDetail = inject<Ref<Commodity>>('commodityDetail')
     
     .big{
         width: 100%;
+        aspect-ratio: 1 / 1;
         border-radius: 10px;
         overflow: hidden;
     }
@@ -35,6 +36,7 @@ const commodityDetail = inject<Ref<Commodity>>('commodityDetail')
 
         .small{
             width: 70px;
+            aspect-ratio: 1 / 1;
             margin-right: 5px;
             border-radius: 5px;
             overflow: hidden;

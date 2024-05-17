@@ -3,7 +3,7 @@
         <div class="amount">
             <div class="amount_item">
                 <div class="key">总商品金额：</div>
-                <div class="value">&yen;387.00</div>
+                <div class="value">&yen;{{ totalPrice?.toFixed(2) }}</div>
             </div>
             <div class="amount_item">
                 <div class="key">税费：</div>
@@ -21,7 +21,7 @@
         <div class="info">
             <div class="cost">
                 <div class="costKey">应付总额：</div>
-                <div class="costValue">&yen;347.65</div>
+                <div class="costValue">&yen;{{ totalPrice?.toFixed(2) }}</div>
             </div>
             <div>寄送至：上海 浦东新区 曹路镇 金海路2360号上海第二工业大学(金海路校区) 收货人：叶 150****1092</div>
         </div>
@@ -33,6 +33,11 @@
 
 <script setup lang='ts'>
 defineOptions({ name: 'TotalFooter' })
+import { Ref, computed, inject } from 'vue'
+import { Settlement } from '@/api/commodity/type'
+
+const commodityList = inject<Ref<Settlement[]>>('commodityList')
+const totalPrice = computed(() => commodityList?.value.reduce((accumulator, currentValue) => accumulator + currentValue.count * currentValue.price , 0))
 </script>
 
 <style scoped lang='scss'>

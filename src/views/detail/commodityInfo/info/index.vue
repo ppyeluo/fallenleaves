@@ -4,13 +4,14 @@
             <div class="title">商品名称</div><div>：</div>
             <div class="content">{{ commodityDetail?.name }}</div>
         </div>
-        <div class="item">
+        <div class="item rate">
             <div class="title">评分</div><div>：</div>
             <div class="content">
                 <el-rate
                     v-model="commodityDetail!.score"
                     disabled
                     show-score
+                    size="small"
                     text-color="#ff9900"
                     score-template="{value}分"
                 />
@@ -48,13 +49,13 @@
         </div>
         <div class="item">
             <div class="title">单价</div><div>：</div>
-            <div class="content">{{ commodityDetail?.price }}</div>
+            <div class="content">&yen; {{ commodityDetail?.price }}</div>
         </div>
         <div class="operate">
-            <button class="btn btn_cost"><span>购买</span></button>
+            <button class="btn btn_cost" @click="gotoBuy"><span>购买</span></button>
             <button class="btn btn_cart" @click="addCart"><span>加入购物车</span></button>
             <el-tooltip content="收藏商品" effect="light">
-                <SvgIcon @click="addCollect" name="collect" color="#44ff11" />
+                <el-icon @click="addCollect" size="20"><Star /></el-icon>
             </el-tooltip>
         </div>
     </div>
@@ -64,14 +65,39 @@
 defineOptions({ name: 'Info' })
 import { reqAddCart } from '@/api/cart';
 import { reqAddCollect } from '@/api/collect';
+import type { addCollect } from '@/api/collect/type';
 import type { Commodity } from '@/api/commodity/type'
 import { Result } from '@/api/user/type';
+import useUserStore from '@/store/modules/user';
+import { ElMessage } from 'element-plus';
 import { ref } from 'vue';
 import { Ref, inject } from 'vue'
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
+const userStore = useUserStore()
 const commodityDetail = inject<Ref<Commodity>>('commodityDetail')
+// 商品数量，默认为1件
 let count = ref<number>(1)
+// 购买商品
+const gotoBuy = () => {
+    const data = [
+        {
+            id:'10494',
+            count: 1
+        }
+    ]
+    router.push({path:'/settelment', query:{ data: JSON.stringify(data) }})
+}
+// 将商品加入购物车
 const addCart = async () => {
+    if(!userStore.token){
+        ElMessage({
+            type: 'warning',
+            message: '请登录后再试！'
+        })
+        return
+    }
     let result: Result<any> = await reqAddCart({
         id: commodityDetail!.value.id,
         count: count.value
@@ -80,10 +106,26 @@ const addCart = async () => {
         console.log('添加成功')
     }
 }
+// 将商品加入收藏
 const addCollect = async () => {
-    let result: Result<any> = await reqAddCollect(commodityDetail!.value.id)
-    if(result.code === 200){
-        console.log('添加成功')
+    if(!userStore.token){
+        ElMessage({
+            type: 'warning',
+            message: '请登录后再试！'
+        })
+        return
+    }
+    let result: Result<addCollect> = await reqAddCollect(commodityDetail!.value.id)
+    if(result.data.isSuccess){
+        ElMessage({
+            type: 'success',
+            message: '收藏成功！'
+        })
+    }else{
+        ElMessage({
+            type: 'warning',
+            message: '商品已经收藏过了'
+        })
     }
 }
 </script>
@@ -97,10 +139,16 @@ const addCollect = async () => {
         margin-top: 10px;
 
         .title{
-            width: 64px;
+            width: 4.2em;
             font-size: 16px;
+            color: #808080;
             text-align: justify;
             text-align-last: justify;
+            white-space: nowrap;
+        }
+
+        &.rate{
+            align-items: flex-end;
         }
     }
     .operate{

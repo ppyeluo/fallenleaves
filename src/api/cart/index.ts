@@ -17,6 +17,6 @@ export const reqCart = () => request.get<any,Result<cartItem[]>>(API.CART_URL)
 // 商品加入购物车
 export const reqAddCart = (data:addCartData) => request.post<any, Result<any>>(API.ADDCART_URL, data)
 // 从购物车中删除商品
-export const reqRemoveCart = (data:addCartData) => request.post<any, Result<any>>(API.REMOVECART_URL, data)
+export const reqRemoveCart = (data:addCartData) => request.delete<any, Result<any>>(API.REMOVECART_URL, {data})
 // 批量删除购物车中的商品
-export const reqBatchRemoveCart = (data:batchRemoveCartData) => request.post<any, Result<any>>(API.BATCHREMOVECART_URL, data)
+export const reqBatchRemoveCart = (data:batchRemoveCartData) => request.delete<any, Result<any>>(API.BATCHREMOVECART_URL, {data})

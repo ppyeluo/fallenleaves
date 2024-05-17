@@ -35,6 +35,7 @@ const layout:RouteRecordRaw[]| undefined  = routes.find(item => item.meta.layout
         color: black;
         border-radius: 8px;
         text-align: left;
+        cursor: pointer;
 
         .icon{
             display: flex;

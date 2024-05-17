@@ -2,6 +2,7 @@ import axios from 'axios'
 import type { AxiosInstance, InternalAxiosRequestConfig, AxiosError, AxiosResponse } from 'axios'
 import { ElMessage } from 'element-plus'
 import useUserStore from '@/store/modules/user'
+import { REMOVE_TOKEN } from './token'
 
 const request:AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_SERVE,
@@ -27,28 +28,19 @@ request.interceptors.request.use((config:InternalAxiosRequestConfig) => {
 request.interceptors.response.use((response:AxiosResponse) => {
     return response.data
 }, (error:AxiosError) => {
-    let message = ''
-    switch(error.response?.status){
-        case 401:
-            message = 'TOKEN过期'
-            break
-        case 403:
-            message = '无权访问'
-            break
-        case 404:
-            message = '请求地址错误'
-            break
-        case 500:
-            message = '服务器内部错误'
-            break
-        default:
-            message = '网络错误'
-            break
+    const code = error.response?.status
+    if(code == 401){
+        REMOVE_TOKEN()
+        ElMessage({
+            type: 'error',
+            message: 'TOKEN过期'
+        })
+    }else if(code == 500){
+        ElMessage({
+            type: 'error',
+            message: '服务器内部错误'
+        })
     }
-    ElMessage({
-        type: 'error',
-        message
-    })
     return Promise.reject(error)
 })
 

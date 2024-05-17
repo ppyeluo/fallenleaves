@@ -2,8 +2,8 @@
     <Banner />
     <section style="padding: 0 15px;">
       <el-row :gutter="30" >
-        <el-col :span="15"><newLanuch /></el-col>
-        <el-col :span="9"><HotBuy /></el-col>
+        <el-col :span="16"><newLanuch /></el-col>
+        <el-col :span="8"><HotBuy /></el-col>
       </el-row>
     </section>
     <section style="padding: 0 15px;">

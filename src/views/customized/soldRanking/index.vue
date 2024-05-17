@@ -13,7 +13,7 @@ import { ref,onMounted, reactive, watchEffect} from "vue"
 const sold_ranking_container = ref()
 let option = reactive({
     title: {
-        text: '最多人搜',
+        text: '热词搜索',
     },
     series: [{
         type: 'wordCloud',

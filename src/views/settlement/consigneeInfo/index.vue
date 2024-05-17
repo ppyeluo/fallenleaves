@@ -1,28 +1,25 @@
 <template>
     <div class="consignee_container">
         <div class="addressInfo">
-            <div class="info">
-                <el-badge value="√" class="item" badge-style="width:1em;height:1em;">
-                    <div class="summarize active">张涛 河北</div>
-                </el-badge>
-                <div class="detail" style="padding-right: 2em;">张涛 河北 衡水市 阜城县 古城镇 马赵村289号 150****1092</div>
+            <div class="info" v-if="defultAddress">
+                <div class="summarize active">{{ defultAddress.receiver }} {{ defultAddress.province }}</div>
+                <div class="detail" style="padding-right: 2em;">{{ defultAddress.receiver }} {{ converAddress(defultAddress) }} {{ maskPhone(defultAddress.phone) }}</div>
                 <el-tag type="info">默认地址</el-tag>
             </div>
             <div class="operate">
-                <span>设为默认地址</span>
-                <span>编辑</span>
+                <span @click="undeveloped">编辑</span>
             </div>
         </div>
         <template v-if="isExpand">
-            <div class="addressInfo" v-for="_i in 3">
+            <div class="addressInfo" v-for="i in foldAddress">
                 <div class="info">
-                    <div class="summarize">张涛 河北</div>
-                    <div class="detail">张涛 河北 衡水市 阜城县 古城镇 马赵村289号 150****1092</div>
+                    <div class="summarize">{{ i.receiver }} {{ i.province }}</div>
+                    <div class="detail">{{ i.receiver }} {{ converAddress(i) }} {{ maskPhone(i.phone) }}</div>
                 </div>
                 <div class="operate">
-                    <span>设为默认地址</span>
-                    <span>编辑</span>
-                    <span>删除</span>
+                    <span @click="undeveloped">设为默认地址</span>
+                    <span @click="undeveloped">编辑</span>
+                    <span @click="undeveloped">删除</span>
                 </div>
             </div>
         </template>
@@ -34,11 +31,40 @@
 </template>
 
 <script setup lang='ts'>
-import { ref } from 'vue';
-
 defineOptions({ name: 'Consignee' })
-
+import { Address, Result } from '@/api/user/type';
+import { getAddress } from '@/api/user';
+import { computed, onMounted, ref } from 'vue';
+import { undeveloped } from '@/utils/undeveloped';
+// 是否展开地址显示
 let isExpand = ref<boolean>(false)
+// 地址列表
+const addressList = ref<Address[]>([])
+// 得到默认地址
+const defultAddress = computed(() => addressList.value.find(i => i.default == 1)!)
+// 折叠地址（除去默认地址）
+const foldAddress = computed(() => addressList.value.filter(i => i.default != 1)!)
+// 根据地址信息拼接出详细地址
+const converAddress = (addressItem: Address) => {
+    return `${addressItem.province} ${addressItem.city} ${addressItem.town} ${addressItem.detail}`
+}
+// 得到用户地址
+const getAddressList = async () => {
+    const result: Result<Address[]> = await getAddress()
+    if(result.code == 200){
+        addressList.value = result.data
+    }
+}
+// 加密手机号
+function maskPhone(phoneNumber: string): string {
+  if (typeof phoneNumber !== 'string' || phoneNumber.length !== 11) {
+    // throw new Error('Invalid phone number format')
+    return '*****'
+  }
+  return `${phoneNumber.slice(0, 3)}****${phoneNumber.slice(7)}`
+}
+
+onMounted(getAddressList)
 </script>
 
 <style scoped lang='scss'>
@@ -74,7 +100,7 @@ let isExpand = ref<boolean>(false)
             
             span{
                 padding-right: 0.5em;
-                
+                cursor: pointer;
                 color: rgb(66, 176, 235);
             }
         }

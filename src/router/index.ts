@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import routes from './routes'
+import setting from '@/setting'
 import { ElMessage } from 'element-plus'
 import { GET_TOKEN } from '@/utils/token'
 
@@ -20,7 +21,7 @@ router.beforeEach((to, _from, next) => {
             next()
         }else{
             ElMessage({
-                type:'error',
+                type:'warning',
                 message:'请登录后再试！'
             })
             next(false)
@@ -33,7 +34,7 @@ router.beforeEach((to, _from, next) => {
 
 // 全局后置守卫，切换路由成功后，改变页签标题
 router.afterEach((to, _from) => {
-    document.title = `nostalgia-${to.meta.title}`
+    document.title = `${setting.title}-${to.meta.title}`
 })
 
 export default router

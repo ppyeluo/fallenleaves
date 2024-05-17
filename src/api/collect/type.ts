@@ -12,3 +12,7 @@ export interface CollectItem{
     flowerLanguage:string,
     picture:string
 }
+// 向收藏中添加商品
+export interface addCollect {
+    isSuccess: boolean
+}

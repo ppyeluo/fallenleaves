@@ -30,6 +30,12 @@ defineOptions({ name: 'PaymentMethod' })
         background-color: #fff;
         padding: 0.3em 2em;
         border: 1px solid $main-color;
+        outline: none;
+        cursor: pointer;
+
+        &.active{
+            border: 1px solid red;
+        }
 
         &.active::after{
             position: absolute;

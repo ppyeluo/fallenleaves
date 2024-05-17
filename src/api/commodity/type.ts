@@ -36,7 +36,7 @@ export interface SearchResult {
     flowerLanguage?: Commodity[]
 }
 // 排序字段的类型
-export type SortField = 'id' | 'name' | 'desc' | 'price' | 'materials' | 'flowerLanguage' | 'picture' | 'type' | 'size' | 'sold' | 'score' | 'bank' | 'comments' | 'listing_time'
+export type SortField = 'id' | 'desc' | 'price' | 'picture' | 'type' | 'size' | 'sold' | 'score' | 'bank' | 'comments' | 'listing_time'
 
 // 排序顺序的类型
 export type SortOrder = 'asc' | 'desc' | 'ASC' | 'DESC'
@@ -58,8 +58,12 @@ export interface CommodityComment {
     commodityName: string, // 商品名称
     content: string,    // 评论内容
     commentTime: string,    // 评论时间
-    rating: string, // 评分
+    rating: number, // 评分
     ipAddress: string,  // ip地址
     likesCount: number, // 点赞量
     repliesCount: number    // 回复量
+}
+// 订单页面商品
+export interface Settlement extends Commodity {
+    count: number
 }

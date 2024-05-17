@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </div>
-        </template>        
+        </template>
         <template #default>
             <div class="hotRecommend">
                 <div class="title">
@@ -67,13 +67,14 @@
 defineOptions({ name: 'HotRecommend' })
 import { reqHotRecommend } from '@/api/commodity'
 import type { Commodity, Result } from '@/api/commodity/type'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 const loading = ref<boolean>(true)
 const router = useRouter()
 
 // 存储要展示的推荐商品数据
 let hotRecommendList = ref<Commodity[]>([])
+// 展示第几页，默认第一页，随着页面滚动触底增加
 let page = ref<number>(1)
 const getHotRecommend = async () => {
     let result: Result<Commodity[]> = await reqHotRecommend(page.value)
@@ -83,6 +84,7 @@ const getHotRecommend = async () => {
     }
     page.value++
 }
+onMounted(getHotRecommend)
 </script>
 
 <style scoped lang='scss'>
@@ -139,7 +141,6 @@ const getHotRecommend = async () => {
                     -webkit-line-clamp: 3;
                     /* 设置超出文本的显示为省略号 */
                     text-overflow: ellipsis;
-                    
                     color: #716f6f;
                     font-size: 13px;
                 }

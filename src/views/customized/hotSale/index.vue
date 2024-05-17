@@ -1,13 +1,16 @@
 <template>
-    <el-table :data="tableData" style="width: 90%;margin-left: 5%;margin-top: 1em;" stripe border
-        :header-cell-style="{ backgroundColor: '#ffaa94', color: '#ffffff' }"
-        :cell-style="{ backgroundColor: '#ffaa54', color: '#fff' }"
-        >
-        <el-table-column type="index" label="排名" align="center" />
-        <el-table-column prop="name" label="商品名称" align="center" />
-        <el-table-column prop="dealTotal" label="交易额（万元）" align="center" />
-        <el-table-column prop="sold" label="订单量" align="center" />
-    </el-table>
+    <div class="hotSale_container" style="width: 90%;">
+        <div class="title" style="margin-bottom: .7em;font-size: 1.3em;font-weight: 500;color:  #FF8C00;">热销榜</div>
+        <el-table :data="tableData" stripe border
+            :header-cell-style="{ backgroundColor: '#ffaa94', color: '#ffffff' }"
+            :cell-style="{ backgroundColor: ' #FF8C00', color: '#fff' }"
+            >
+            <el-table-column type="index" label="排名" align="center" />
+            <el-table-column prop="name" label="商品名称" align="center" />
+            <el-table-column prop="dealTotal" label="交易额（万元）" align="center" />
+            <el-table-column prop="sold" label="订单量" align="center" />
+        </el-table>
+    </div>
 </template>
 
 <script setup lang='ts'>

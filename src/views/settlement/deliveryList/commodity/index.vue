@@ -1,23 +1,26 @@
 <template>
     <div class="commodity_container">
         <h3>商家：xxxx</h3>
-        <div class="info">
-            <div class="image"><img src="https://img.21xianhua.com/upload/2022/03/01/167d326a153e32cd06e5902fbd29016e" width="100%"></div>
+        <div class="info" v-for="i in commodityList">
+            <div class="image"><img :src="i.picture" width="100%" height="100%"></div>
             <div class="word">
-                <div class="desc"><span class="name">誓言</span><span class="flowerLanguage">青春是段跌跌撞撞的旅行， 拥有着后知后觉的美丽。</span></div>
-                <div class="material">粉红雪山玫瑰66朵，鲜花直径不小于55cm，花泥制作； 8寸心形水果蛋糕</div>
+                <div class="desc"><span class="name">{{ i.name }}</span><span class="flowerLanguage">{{ i.flowerLanguage }}</span></div>
+                <div class="material">{{ i.materials }}</div>
             </div>
             <div class="price">
-                <div class="unit">&yen;387.00</div>
-                <div class="weight">1.90kg</div>
+                <div class="unit">&yen;{{ i.price }}</div>
+                <div class="weight">直径{{ i.size }}cm</div>
             </div>
-            <div class="count">x1</div>
+            <div class="count">x{{ i.count }}</div>
         </div>
     </div>
 </template>
 
 <script setup lang='ts'>
+import { Ref, inject } from 'vue'
+import { Settlement } from '@/api/commodity/type'
 
+const commodityList = inject<Ref<Settlement[]>>('commodityList')
 </script>
 
 <style scoped lang='scss'>
@@ -36,6 +39,7 @@
 
         .image{
             width: 8em;
+            aspect-ratio: 1 / 1;
             margin-right: 1em;
         }
         .word{

@@ -30,17 +30,17 @@ let recommendCommodity = ref<Commodity[]>([])
 const getRecommendCommodity = async () => {
     let result: Result<Commodity[]> = await reqHotRecommend(1)
     if(result.code === 200){
-        recommendCommodity.value = result.data
+        recommendCommodity.value = result.data.slice(0, 7)
     }
 }
-
 onMounted(getRecommendCommodity)
 </script>
 
 <style scoped lang='scss'>
 .recommend{
     .title{
-        font-size: 20px;
+        font-size: 1.4em;
+        margin-bottom: .6em;
     }
     .content{
         .item{

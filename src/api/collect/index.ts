@@ -1,5 +1,5 @@
 import request from "@/utils/request";
-import { Result, CollectItem } from "./type";
+import { Result, CollectItem, addCollect } from "./type";
 
 
 enum API {
@@ -14,6 +14,6 @@ enum API {
 // 获取我的收藏信息
 export const reqCollect = () => request.get<any, Result<CollectItem[]>>(API.COLLECT_URL)
 // 向我的收藏中添加商品
-export const reqAddCollect = (id:string) => request.post<any, Result<any>>(API.ADDCOLLECT_URL,{id})
+export const reqAddCollect = (id:string) => request.post<any, Result<addCollect>>(API.ADDCOLLECT_URL,{id})
 // 某一商品取消收藏
-export const reqRemoveCollect = (id:string) => request.post<any, Result<any>>(API.REMOVECOLLECT_URL, {id})
+export const reqRemoveCollect = (id:string) => request.delete<any, Result<any>>(`${API.REMOVECOLLECT_URL}/${id}`)

@@ -1,7 +1,7 @@
 <template>
     <NavTitle :title="commodityDetail.name" />
     <CommodityInfo />
-    <section style="padding: 0 15px;">
+    <section style="padding: 0 10px;">
         <el-row :gutter="20">
             <el-col :span="16"><Comment /></el-col>
             <el-col :span="8"><Recommend /></el-col>

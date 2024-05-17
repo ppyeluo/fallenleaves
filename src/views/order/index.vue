@@ -1,7 +1,10 @@
 <template>
     <NavTitle title="订单中心" />
     <div class="order_container">
-        <el-card shadow="never">
+        <section v-if="orderList.length === 0">
+            <el-empty description="您的订单为空" :image-size="300"/>
+        </section>
+        <el-card v-else shadow="never" style="margin-bottom: 10px;">
             <div class="nav">
                 <span class="active">全部订单</span>
                 <span>待付款</span>
@@ -11,15 +14,15 @@
             <div class="content">
                 <div class="header">
                     <el-row>
-                        <el-col :span="16">
+                        <el-col :span="15">
                             <el-row> 
                                 <el-col :span="4"></el-col><el-col :span="12"></el-col>
                                 <el-col :span="4">订单详情</el-col><el-col :span="4"></el-col>
                             </el-row>
                         </el-col>
-                        <el-col :span="2">收货人</el-col>
+                        <el-col :span="3">收货人</el-col>
                         <el-col :span="2">金额</el-col>
-                        <el-col :span="2">全部状态</el-col>
+                        <el-col :span="2">订单状态</el-col>
                         <el-col :span="2">操作</el-col>
                     </el-row>
                 </div>
@@ -35,21 +38,21 @@
                     </div>
                     <div class="main">
                         <el-row>
-                            <el-col :span="16" class="left">
+                            <el-col :span="15" class="left">
                                 <el-row>
                                     <el-col :span="4" class="image"><img :src="item.picture" width="100%"></el-col>
                                     <el-col :span="12" class="name">{{ item.name }}</el-col>
                                     <el-col :span="4" class="count">x{{ item.count }}</el-col>
-                                    <el-col :span="4" class="count">申请售后</el-col>
+                                    <el-col :span="4" class="aftermarket" @click="undeveloped">申请售后</el-col>
                                 </el-row>
                             </el-col>
-                            <el-col :span="2" class="receiver"><el-icon><User /></el-icon>叶</el-col>
+                            <el-col :span="3" class="receiver"><el-icon><User /></el-icon>&nbsp;云深不知处</el-col>
                             <el-col :span="2" class="price">
                                 <span>&yen;{{ item.totalPrice }}</span>
-                                <div class="tag"><el-tag type="success">{{ item.paymentMethod }}</el-tag></div>
+                                <div class="tag"><el-tag :type="payTheme(item.paymentMethod)">{{ item.paymentMethod }}</el-tag></div>
                             </el-col>
                             <el-col :span="2" class="status">{{ item.status }}</el-col>
-                            <el-col :span="2" class="operate">再次购买</el-col>
+                            <el-col :span="2" class="operate" @click="undeveloped">再次购买</el-col>
                         </el-row>
                     </div>
                 </div>
@@ -64,6 +67,7 @@ import { OrderItem } from '@/api/order/type';
 import { Result } from '@/api/user/type';
 import { ElMessage } from 'element-plus';
 import { onMounted, ref } from 'vue';
+import { undeveloped } from '@/utils/undeveloped';
 
 defineOptions({ name: 'Order' })
 
@@ -86,6 +90,18 @@ const deleteOrder = async (id:string) => {
             type: 'success',
             message:'删除成功'
         })
+    }
+}
+// 支付方式标签主题
+function payTheme(pay:string){
+    if(pay == '微信支付'){
+        return 'success'
+    }else if(pay == '支付宝'){
+        return 'primary'
+    }else if(pay == '云闪付'){
+        return 'danger'
+    }else{
+        return 'success'
     }
 }
 </script>
@@ -168,6 +184,13 @@ const deleteOrder = async (id:string) => {
                         padding-top: 0.5em;
                         text-align: right;
                     }
+                    .aftermarket{
+                        cursor: pointer;
+                        transition: .4s;
+                    }
+                    .aftermarket:hover{
+                        color: $main-color;
+                    }
                 }
             }
             .receiver, .price, .status, .operate{
@@ -180,7 +203,14 @@ const deleteOrder = async (id:string) => {
                 align-items: center;
             }
             .price .tag{
-                padding-top: 1em;
+                padding-top: .5em;
+            }
+            .operate{
+                cursor: pointer;
+                transition: .4s;
+            }
+            .operate:hover{
+                color: $main-color;
             }
         }
         .item:last-child{

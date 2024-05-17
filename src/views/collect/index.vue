@@ -1,18 +1,27 @@
 <template>
     <NavTitle title="我的收藏" />
     <section class="collect_container">
-        <el-card shadow="never">
+        <section v-if="collectList.length === 0">
+            <el-empty description="您的收藏为空" :image-size="300"/>
+        </section>
+        <el-card v-else shadow="never" style="margin-bottom: 10px;">
             <div class="content">
-                <div class="item" v-for="item in collectList" :key="item.userId+item.commodityId">
+                <div class="item" @click="router.push(`/detail?id=${item.commodityId}`)" v-for="item in collectList" :key="item.userId+item.commodityId">
                     <div class="photo">
                         <img :src="item.picture" :alt="item.name" width="100%" height="100%">
                     </div>
                     <div class="info">
                         <div class="name">{{ item.name }}</div>
-                        <div class="flowerLanguage"><el-text line-clamp="2"> {{ item.flowerLanguage }}</el-text></div>
+                        <div class="flowerLanguage"><el-text line-clamp="4"> {{ item.flowerLanguage }}</el-text></div>
                     </div>
                     <div class="operate">
-                        <el-icon style="margin-top: 10px;" @click="removeCollect(item.commodityId)"><Delete /></el-icon>
+                        <el-tooltip
+                            effect="light"
+                            content="从我的收藏中移除"
+                            placement="top-end"
+                        >  
+                            <el-icon style="margin-top: 10px;" @click="removeCollect(item.commodityId)"><Delete /></el-icon>
+                        </el-tooltip>
                     </div>
                 </div>
             </div>
@@ -21,11 +30,13 @@
 </template>
 
 <script setup lang='ts'>
+defineOptions({ name: 'Collect' })
 import { reqCollect, reqRemoveCollect } from '@/api/collect';
 import { CollectItem, Result } from '@/api/collect/type'
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-defineOptions({ name: 'Collect' })
+const router = useRouter()
 
 let collectList = ref<CollectItem[]>([])
 
@@ -49,26 +60,26 @@ onMounted(getCollect)
 
 <style scoped lang="scss">
 .collect_container{
-    min-height: calc(100vh - $base-footer-height - $base-header-height - $nav-title-height);
     
     .content{
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
 
         .item{
+            position: relative;
             display: flex;
-            width: 45%;
-            padding-right: 5%;
             margin-top: 15px;
+            cursor: pointer;
 
             .photo{
-                flex: 3;
+                width: 180px;
+                height: 180px;
                 border-radius: 10px;
                 overflow: hidden;
+                flex-shrink: 0;
             }
             .info{
-                flex:10;
                 padding-left: 10px;
 
                 .name{
@@ -77,8 +88,14 @@ onMounted(getCollect)
                 }
             }
             .operate{
-                flex:2;
-                margin-top: 20px;
+                position: absolute;
+                right: 20px;
+                bottom: 20px;
+                transition: 1s;
+                cursor: pointer;
+            }
+            .operate:hover{
+                color: red;
             }
         }
     }

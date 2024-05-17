@@ -32,7 +32,10 @@ defineProps({
     align-items: center;
     font-size: 14px;
     padding-bottom: 1.5em;
-
+    
+    .icon{
+        cursor: pointer;
+    }
     .icon:hover{
         color: red;
     }

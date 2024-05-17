@@ -7,5 +7,19 @@ export interface Result<T=any> {
 
 export interface userInfo{
     id:number,
-    username:string, // 用户名
+    username:string,
+    phone:string,
+    email:string,
+    password:string,
+}
+// 地址
+export interface Address {
+    user_id: number,
+    receiver: string,
+    phone: string,
+    province: string,
+    city: string,
+    town: string,
+    detail: string,
+    default: 1
 }

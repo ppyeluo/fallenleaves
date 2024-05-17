@@ -80,10 +80,10 @@ onMounted(getHotBuy)
     .title{
         display: flex;
         align-items: flex-end;
-        padding: 20px 10px;
+        padding: 1.2em .8em;
 
         h4{
-            font-size: 24px;
+            font-size: 1.4em;
         }
         .sub{
             padding-left: 10px;
@@ -92,19 +92,24 @@ onMounted(getHotBuy)
         }
     }
     .content{ 
+        display: grid;
+        grid-template-columns: repeat(1, 1fr); /* 1列网格布局 */
+        grid-template-rows: repeat(5, 1fr); /* 5行网格布局 */
+        gap: 8px; /* 网格项之间的间隙 */
+        
         .contentItem{
             display: flex;
-            margin-bottom: 10px;
+            margin-right: 1em;
 
             .image{
-                width: 80px;
-                height: 80px;
+                width: 78px;
+                height: 78px;
                 border-radius: 10px;
                 overflow: hidden;
+                flex-shrink: 0; /* 防止图片缩小 */
             }
             .info{
                 position: relative;
-                width: 250px;
 
                 .name{
                     padding: 5px 0 0 10px;
@@ -120,7 +125,7 @@ onMounted(getHotBuy)
                     /* 设置文本的排列方向为垂直方向 */
                     -webkit-box-orient: vertical;
                     /* 设置文本显示的行数 */
-                    -webkit-line-clamp: 2;
+                    -webkit-line-clamp: 1;
                     /* 设置超出文本的显示为省略号 */
                     text-overflow: ellipsis;
                     

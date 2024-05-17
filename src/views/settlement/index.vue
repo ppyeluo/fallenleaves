@@ -16,7 +16,7 @@
                     </el-steps>
                 </div>
             </div>
-            <h3>填写并核对订单信息</h3>
+            <h3 style="padding: .7em 0;">填写并核对订单信息</h3>
             <div class="card">
                 <div class="title">收货人信息</div>
                 <ConsigneeInfo />
@@ -37,8 +37,8 @@
                 <Invoice />
             </div>
             <div class="card">
-                <div class="title">使用优惠/礼品卡/抵用</div>
-                
+                <div class="title"><el-icon><Promotion /></el-icon><span style="padding-left: .4em;">使用优惠/礼品卡/抵用</span></div>
+                <span style="color: #808080; font-size: .8em;">暂无可用优惠券</span>
             </div>
             <TotalFooter />
         </div>
@@ -53,6 +53,24 @@ import PaymentMethod from './paymentMethod/index.vue'
 import DeliveryList from './deliveryList/index.vue'
 import Invoice from './invoice/index.vue'
 import TotalFooter from './totalFooter/index.vue'
+import { Commodity, Settlement } from '@/api/commodity/type';
+import { onMounted, provide, readonly, ref } from 'vue';
+import { useRoute } from 'vue-router'
+import { Result } from '@/api/user/type';
+import { reqCommodity } from '@/api/commodity';
+
+const route = useRoute()
+
+const commodityList = ref<Settlement[]>([] as Settlement[])
+provide('commodityList', readonly(commodityList))
+
+onMounted(async () => {
+    const data = JSON.parse(route.query.data as string)
+    for(let i = 0; i < data.length; i++){
+        let res: Result<Commodity> = await reqCommodity(data[i].id as string)
+        commodityList.value = [...commodityList.value, Object.assign(res.data, { count: data[i].count })]
+    }
+})
 </script>
 
 <style scoped lang='scss'>
@@ -63,6 +81,7 @@ import TotalFooter from './totalFooter/index.vue'
         width: $type-area-width;
         margin: 0 auto;
         padding-top: 10px;
+        margin-bottom: 10px;
 
         .steps{
             display: flex;
