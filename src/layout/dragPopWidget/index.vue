@@ -108,17 +108,38 @@ const toCopy = async (text:string) => {
           animation-fill-mode: forwards; /* 动画结束后保持最后一帧状态 */
           animation-delay: 0s; /* 动画立即开始 */
           .poptip_item{
-            background: linear-gradient(to right, #6b3fa0, #a56cc1, #d494d3);
+            background: $background;
             border-radius: 20px;
             padding: 12px 16px;
             position: relative;
             white-space: nowrap;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.7),
+                        0 0 40px rgba(255, 105, 180, 0.5),
+                        0 0 60px rgba(255, 105, 180, 0.3);
+            animation: glowing 1s ease-in-out infinite;
+          }
+          @keyframes glowing {
+            0% {
+              box-shadow: 0 0 20px rgba(255, 105, 180, 0.7),
+                          0 0 40px rgba(255, 105, 180, 0.5),
+                          0 0 60px rgba(255, 105, 180, 0.3);
+            }
+            50% {
+              box-shadow: 0 0 30px rgba(255, 105, 180, 1),
+                          0 0 50px rgba(255, 105, 180, 0.8),
+                          0 0 70px rgba(255, 105, 180, 0.5);
+            }
+            100% {
+              box-shadow: 0 0 20px rgba(255, 105, 180, 0.7),
+                          0 0 40px rgba(255, 105, 180, 0.5),
+                          0 0 60px rgba(255, 105, 180, 0.3);
+            }
           }
           .poptip_item:before{
             content: "";
             position: absolute;
             border-top: 10px solid transparent;
-            border-right: 20px solid #6b3fa0;
+            border-right: 20px solid #D2EEF9;
             border-bottom: 10px solid transparent;
             left: -15px;
             top: 50%;
