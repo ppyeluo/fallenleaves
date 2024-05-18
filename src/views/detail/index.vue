@@ -28,6 +28,11 @@ onMounted(async () => {
     let res: Result<Commodity> = await reqCommodity(id as string)
     commodityDetail.value = res.data
 })
+// 页面滚动到顶部
+window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+})
 </script>
 
 <style scoped lang='scss'>

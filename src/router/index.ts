@@ -7,15 +7,12 @@ import { GET_TOKEN } from '@/utils/token'
 const router = createRouter({
     history: createWebHistory(),
     routes,
-    scrollBehavior(_to, _from, _savedPosition){
-        return {
-            top: 0,
-            left: 0
-        }
+    scrollBehavior() {
+        return { top: 0 }
     }
 })
 // 全局前置守卫
-router.beforeEach((to, _from, next) => {
+router.beforeEach((to, _from, next) => {  
     if(to.meta.needToken){
         if(GET_TOKEN()){
             next()

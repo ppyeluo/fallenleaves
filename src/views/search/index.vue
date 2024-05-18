@@ -1,6 +1,6 @@
 <template>
     <NavTitle :title="`搜索 - '${route.query.intent}'`" />
-    <div class="search_container">     
+    <div class="search_container" ref="search_container">     
         <el-card shadow="never" style="margin-bottom: 10px;">
             <template #default>
                 <div class="option">
@@ -83,6 +83,7 @@ import { useRoute, useRouter } from 'vue-router';
 const route = useRoute()
 const router = useRouter()
 const commodityStore = useCommodityStore()
+// 挂载完成获取分类
 onMounted(commodityStore.getType)
 let searchCommodityForm = ref<SearchCommodity>({
     page:1,
@@ -97,7 +98,7 @@ let searchCommodityList = ref<Commodity[]>([])
 // 检索出的商品总个数
 let total = ref<number>(0)
 // 得到搜索结果
-const getSearchCommodity = async () => {
+const getSearchCommodity = async () => {// 页面滚动到顶部
     let result: Result<SearchCommodity> = await reqSearchCommodity(searchCommodityForm.value)
     if(result.code === 200){
         total.value = result.data.total!
@@ -105,11 +106,19 @@ const getSearchCommodity = async () => {
     }
 }
 onMounted(getSearchCommodity)
-// 监视路由变化，更新页面（因为从同一页面跳转到同一页面时,Vue Router 并不会认为路由发生了变化）
+// 获取搜索容器， 渲染列表发生变化的时候，使得元素在视口可见
+const search_container = ref<HTMLInputElement | null>(null)
+watch(searchCommodityList, () => {
+    if(search_container.value){
+        search_container.value!.scrollIntoView(true)
+    }
+})
+// 监视路由变化，更新页面（因为从同一页面跳转到同一页面时,Vue Router 并不会认为路由发生了变化），强制刷新
 watch(() => route.query, ()=> {
     getSearchCommodity()
     window.location.reload()
 }, { deep:true })
+// 更改类型
 const changeType = (type:string) => {
     router.push(`/search/?intent=${route.query.intent}&type=${type}`)
     searchCommodityForm.value.type = type
@@ -119,6 +128,7 @@ const changeType = (type:string) => {
 let orderActive = ref<SortField>('id')
 // 当前是顺序还是降序
 let ascActive = ref<SortOrder>('desc')
+// 更改排序方式
 const changeOrder = (sortField: SortField) => {
     orderActive.value = sortField
     searchCommodityForm.value.sortField = sortField
