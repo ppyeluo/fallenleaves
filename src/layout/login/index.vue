@@ -32,7 +32,7 @@
                         </el-input>
                     </el-form-item>
                 </el-form>
-                <div class="login_btn"><el-button @click="register" type="primary" style="width: 100%;">注册并登录</el-button></div>
+                <div class="login_btn"><el-button disabled @click="register" type="primary" style="width: 100%;">暂不支持注册</el-button></div>
             </div>
         </div>
     </el-dialog>
@@ -65,7 +65,7 @@ let registerForm = reactive({
 const login = async () => {
     await userStore.userLogin(loginForm)
 }
-const register = () => {    
+const register = () => {
     let result: any = userStore.userRegister(registerForm)
     if(result.code === 200){
         console.log('注册成功')

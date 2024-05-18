@@ -32,7 +32,7 @@ import Login from './login/index.vue'
     position: relative;
     width: 100%;
     height: 100vh;
-    background-color: $background-color;
+    background: $background;
     
     .layout_sidebar{
         width: $base-sidebar-width;

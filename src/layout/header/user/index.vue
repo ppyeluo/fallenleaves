@@ -5,18 +5,18 @@
         trigger="hover"
     >
         <template #reference>
-            <el-avatar style="margin-left: 30px;" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
+            <el-avatar style="margin-left: 30px;" :src="userIn.avatar" />
         </template>
         <div class="infoCard">
             <div class="info"> 
                 <div class="username">用户名：{{ userIn.username }}</div>
-                <div class="label"><el-tag type="danger">资深小白</el-tag></div>
+                <div class="memberTag" :class="memberTag(userIn.tag)">{{ userIn.tag }}</div>
                 <div class="show">
-                    <div class="memberPoints">
+                    <div class="memberPoints" @click="undeveloped()">
                         <span>100</span>
                         <span>会员积分</span>
                     </div>
-                    <div class="coupon">
+                    <div class="coupon" @click="undeveloped()">
                         <span>10</span>
                         <span>优惠券</span>
                     </div>
@@ -88,6 +88,7 @@ import { reqUserInfo } from '@/api/user';
 import type { Result, userInfo } from '@/api/user/type';
 import useUserStore from '@/store/modules/user';
 import { onMounted, ref, watch } from 'vue';
+import { undeveloped } from '@/utils/undeveloped';
 
 const userStore = useUserStore()
 // 编辑弹窗中各个“更改”按钮的禁用状态
@@ -146,6 +147,18 @@ const logout = () => {
 onMounted(getUser)
 // 编辑弹窗显示与否
 let editDialogVisible = ref(false)
+// 返回标签类名
+const memberTag = (tag:string) => {
+    if(tag == '钻石会员'){
+        return 'diamond'
+    } else if(tag == '黄金会员'){
+        return 'gold'
+    } else if(tag == '白银会员'){
+        return 'silver'
+    } else {
+        return 'normal'
+    } 
+}
 </script>
 
 <style scoped lang='scss'>
@@ -156,7 +169,67 @@ let editDialogVisible = ref(false)
         .username{
             padding: 0.6em 0;
         }
+        .memberTag{
+            white-space: nowrap;
+            width: fit-content;
+            border: 1px solid #000;
+            font-size: .9em;
+            padding: .2em .3em;
+            margin: 6px 0 0 10px;
+            border-radius: 5px;
+            &.normal {
+                /* 普通会员框的样式 */
+                color: white;
+                border-color: #cd7f32; /* 青铜色边框 */
+                background-color: #76828e; /* 淡蓝色背景 */
+            }
 
+            &.silver {
+                /* 白银会员框的样式 */
+                border-color: silver; /* 银色边框 */
+                background-color: #eaeaea; /* 淡灰色背景 */
+            }
+
+            &.gold {
+                /* 黄金会员框的样式 */
+                border-color: gold; /* 金色边框 */
+                background-color: #fffacd; /* 浅黄色背景 */
+            }
+
+            &.diamond {
+                position: relative;
+                border: 1px solid transparent; /* 无边框 */
+                background-color: #e0f7fa; /* 淡蓝色背景 */
+                overflow: hidden;
+                box-shadow: 0 0 5px rgba(0, 0, 255, 0.5), 0 0 10px rgba(0, 0, 255, 0.5), 0 0 15px rgba(0, 0, 255, 0.5);
+            }
+
+            &.diamond::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(255,255,255,0) 20%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 80%);
+                animation: shine 3s linear infinite;
+            }
+
+            @keyframes shine {
+                0% {
+                    transform: rotate(0deg);
+                    opacity: 0.7;
+                }
+                50% {
+                    transform: rotate(180deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: rotate(360deg);
+                    opacity: 0.7;
+                }
+            }
+        }
         .show{
             padding: 0.5em 0;
             display: flex;
@@ -167,6 +240,7 @@ let editDialogVisible = ref(false)
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                cursor: pointer;
             }
         }
         .operate{

@@ -5,11 +5,11 @@
             <el-empty description="您的购物车为空" :image-size="300"/>
         </section>
         <section v-else>
-            <el-table ref="Etable" :data="cartList" @selection-change="handleSelectionChange">
+            <el-table ref="Etable" :data="cartList" @selection-change="handleSelectionChange" @select-all="selectAll">
                 <el-table-column type="selection" width="50"></el-table-column>
                 <el-table-column label="商品信息"  width="500">
                     <template #='{ row }'>
-                        <div class="info">
+                        <div class="info" @click="router.push(`/detail?id=${row.commodityId}`)">
                             <div class="img"><img :src="row.picture" :alt="row.name" width="100%" height="100%"></div>
                             <div class="word">
                                 <div class="name">{{ row.name }}</div>
@@ -39,7 +39,7 @@
                     </template>
                     <template #='{ row }'>
                         <div class="operate">
-                            <el-button @click="goBuy">购买</el-button>
+                            <el-button @click="goBuy(row.commodityId, row.count)">购买</el-button>
                             <el-button @click="deleteCartItem(row.commodityId, row.count)">删除</el-button>
                         </div>
                     </template>
@@ -48,13 +48,13 @@
             <el-card style="margin-top: .6em;" shadow="never">
                 <div class="footer">
                     <div class="footer_left">
-                        <el-checkbox @click="Etable?.toggleAllSelection">全选</el-checkbox>
-                        <span @click="batchRemoveCart" style="margin-left: .6em;font-size: 14px;color: aqua;">删除选中商品</span>
+                        <el-checkbox @click="Etable?.toggleAllSelection" v-model="isAllSelected">全选</el-checkbox>
+                        <span @click="batchRemoveCart" style="margin-left: .6em;font-size: 14px;color: aqua;cursor: pointer;">删除选中商品</span>
                     </div>
                     <div class="footer_right">
                         <span class="yixuan">已选<span class="yixuan_v">{{ selectedArr.length }}</span>件商品</span>
                         <span class="zongjia">总价：<span class="zongjia_v"><span style="padding-right: 0.2em;">&yen;</span>{{ selectedPrice.toFixed(2) }}</span></span>
-                        <span class="goumai"><el-button type="primary" :disabled="hasSelected" @click="goBuy">去结算</el-button></span>
+                        <span class="goumai"><el-button type="primary" :disabled="hasSelected" @click="batchBuy">去结算</el-button></span>
                     </div>
                 </div>
             </el-card>
@@ -67,7 +67,7 @@ defineOptions({ name: 'Cart' })
 import { reqAddCart, reqBatchRemoveCart, reqCart, reqRemoveCart } from '@/api/cart';
 import { cartItem } from '@/api/cart/type';
 import { Result } from '@/api/user/type';
-import { ElTable } from 'element-plus';
+import { ElMessage, ElTable } from 'element-plus';
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router';
 
@@ -82,6 +82,8 @@ const hasSelected = ref<boolean>(true)
 let selectedArr = ref<any[]>([])
 // 选中商品的总价钱
 let selectedPrice = ref<number>(0.00)
+// 是否全选
+const isAllSelected = ref<boolean>(false)
 // 获取用户购物车信息方法，组件挂载完成后调用一次
 const getCart = async () => {
     let result: Result<cartItem[]> = await reqCart()
@@ -95,12 +97,18 @@ const updateCart = async (currentV:number, oldV:number, id:string) => {
     if(currentV > oldV){   // 添加
         let result: Result<any> = await reqAddCart({ id, count: currentV-oldV })
         if(result.code === 200){
-            console.log('添加成功')
+            ElMessage({
+                type:'success',
+                message: '添加成功'
+            })
         }
     }else{  // 减少
         let result: Result<any> = await reqRemoveCart({ id, count: oldV-currentV })
         if(result.code === 200){
-            console.log('删除成功')
+            ElMessage({
+                type:'success',
+                message: '删除成功'
+            })
         }
     }
 }
@@ -109,7 +117,10 @@ const deleteCartItem = async (id:string,count:number) => {  // 减少
     let result: Result<any> = await reqRemoveCart({ id, count })
     if(result.code === 200){
         getCart()
-        console.log('删除成功')
+        ElMessage({
+            type:'success',
+            message: '删除成功'
+        })
     }
 }
 // 点击批量删除按钮
@@ -120,7 +131,10 @@ const batchRemoveCart = async () => {
         
         let result: Result<any> = await reqBatchRemoveCart({numberList})
         if(result.code === 200){
-            console.log('删除成功')
+            ElMessage({
+                type:'success',
+                message: '删除成功'
+            })
             getCart()
         }
     }
@@ -137,9 +151,29 @@ const handleSelectionChange = () => {
     }
     hasSelected.value = selectedArr.value.length > 0 ? false:true // 更新是否有选中商品
 }
+// 点击表格全选按钮
+const selectAll = (selection:any[]) => {
+    isAllSelected.value = selection.length > 0
+}
 // 单条商品购买
-const goBuy = () => {
-    router.push('/settelment')
+const goBuy = (id:string, count:number) => {
+    const data = [
+        {
+            id,
+            count
+        }
+    ]
+    router.push({path:'/settelment', query:{ data: JSON.stringify(data) }})
+}
+// 批量购买
+const batchBuy = () => {
+    const data = selectedArr.value.map(i => {
+        return {
+            id: i.commodityId,
+            count: i.count
+        }
+    })
+    router.push({path:'/settelment', query:{ data: JSON.stringify(data) }})
 }
 </script>
 
@@ -147,6 +181,7 @@ const goBuy = () => {
 .cart_container{
     .info{
         display: flex;
+        cursor: pointer;
 
         img{
             width: 80px;

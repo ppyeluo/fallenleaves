@@ -83,8 +83,8 @@ let count = ref<number>(1)
 const gotoBuy = () => {
     const data = [
         {
-            id:'10494',
-            count: 1
+            id: commodityDetail?.value.id,
+            count:count.value
         }
     ]
     router.push({path:'/settelment', query:{ data: JSON.stringify(data) }})
@@ -103,7 +103,10 @@ const addCart = async () => {
         count: count.value
     })
     if(result.code === 200){
-        console.log('添加成功')
+        ElMessage({
+            type: 'success',
+            message: '加入购物车成功！'
+        })
     }
 }
 // 将商品加入收藏

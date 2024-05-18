@@ -22,10 +22,10 @@
                 <el-option @click="goSearch(t.type)" v-for="t in searchResultList['type']" :value="t.type" :label="t.typeName"></el-option>
             </el-option-group>
             <el-option-group v-if="searchResultList.commodityName" label="花束">
-                <el-option @click="goSearch()" v-for="c in searchResultList['commodityName']" :value="c.id" :label="c.name"></el-option>
+                <el-option @click="goSearch()" v-for="c in searchResultList['commodityName']" :value="c.name" :label="c.name"></el-option>
             </el-option-group>
             <el-option-group v-if="searchResultList.flowerLanguage" label="花语">
-                <el-option @click="goSearch()" v-for="c in searchResultList['flowerLanguage']" :value="c.id" :label="c.name"></el-option>
+                <el-option @click="goSearch()" v-for="c in searchResultList['flowerLanguage']" :value="c.name" :label="c.name"></el-option>
             </el-option-group>
         </div>
     </el-select>
@@ -73,6 +73,7 @@ const goDetail = (id:string) => {
 // 点击回车或者点击搜索出来的列表的数据进入搜索页
 const goSearch = (type = '') => {
     if(value.value){
+        if(type != '') value.value = ''
         router.push(`/search?intent=${value.value}&type=${type}`)
         value.value = ''
     }

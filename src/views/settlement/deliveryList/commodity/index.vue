@@ -36,6 +36,7 @@ const commodityList = inject<Ref<Settlement[]>>('commodityList')
     .info{
         display: flex;
         font-size: 13px;
+        margin-bottom: .3em;
 
         .image{
             width: 8em;

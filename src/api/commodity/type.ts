@@ -55,6 +55,10 @@ export interface SearchCommodity{
 }
 // 商品评论
 export interface CommodityComment {
+    id: number, // 评论id
+    username: string,   // 评论人用户名
+    avatar: string, // 评论人头像 
+    tag: string,    // 评论人标签
     commodityName: string, // 商品名称
     content: string,    // 评论内容
     commentTime: string,    // 评论时间

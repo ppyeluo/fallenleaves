@@ -77,14 +77,14 @@ import { reqSearchCommodity } from '@/api/commodity';
 import { Commodity, SearchCommodity, SortField, SortOrder } from '@/api/commodity/type';
 import { Result } from '@/api/user/type';
 import useCommodityStore from '@/store/modules/commodity'
-import { onMounted, reactive, ref, Directive } from 'vue';
+import { onMounted, ref, Directive, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute()
 const router = useRouter()
 const commodityStore = useCommodityStore()
 onMounted(commodityStore.getType)
-let searchCommodityForm: SearchCommodity = reactive({
+let searchCommodityForm = ref<SearchCommodity>({
     page:1,
     pageSize:12,
     intent:route.query.intent as string,
@@ -96,17 +96,23 @@ let searchCommodityForm: SearchCommodity = reactive({
 let searchCommodityList = ref<Commodity[]>([])
 // 检索出的商品总个数
 let total = ref<number>(0)
+// 得到搜索结果
 const getSearchCommodity = async () => {
-    let result: Result<SearchCommodity> = await reqSearchCommodity(searchCommodityForm)
+    let result: Result<SearchCommodity> = await reqSearchCommodity(searchCommodityForm.value)
     if(result.code === 200){
         total.value = result.data.total!
         searchCommodityList.value = result.data.data!
     }
 }
 onMounted(getSearchCommodity)
+// 监视路由变化，更新页面（因为从同一页面跳转到同一页面时,Vue Router 并不会认为路由发生了变化）
+watch(() => route.query, ()=> {
+    getSearchCommodity()
+    window.location.reload()
+}, { deep:true })
 const changeType = (type:string) => {
     router.push(`/search/?intent=${route.query.intent}&type=${type}`)
-    searchCommodityForm.type = type
+    searchCommodityForm.value.type = type
     getSearchCommodity()
 }
 // 当前显示的是按什么排序
@@ -115,18 +121,18 @@ let orderActive = ref<SortField>('id')
 let ascActive = ref<SortOrder>('desc')
 const changeOrder = (sortField: SortField) => {
     orderActive.value = sortField
-    searchCommodityForm.sortField = sortField
+    searchCommodityForm.value.sortField = sortField
     if(sortField === 'price'){
         if(['asc', 'ASC'].includes(ascActive.value)){
             ascActive.value = 'desc'
-            searchCommodityForm.sortOrder = 'desc'
+            searchCommodityForm.value.sortOrder = 'desc'
         }else{            
             ascActive.value = 'asc'
-            searchCommodityForm.sortOrder = 'asc'
+            searchCommodityForm.value.sortOrder = 'asc'
         }
     }else{
         ascActive.value = 'asc'
-        searchCommodityForm.sortOrder = 'asc'
+        searchCommodityForm.value.sortOrder = 'asc'
     }
     getSearchCommodity()
 }
@@ -249,7 +255,7 @@ const formatCommentNumber = (num: number): string => {
 
                 .img{
                     width: 100%;
-                    aspect-ratio:1;
+                    aspect-ratio: 1 / 1;
                 }
                 .desc{
                     padding: .3em 0;
@@ -260,17 +266,17 @@ const formatCommentNumber = (num: number): string => {
                     }
                     .flowerLanguage{
                         font-size: 14px;
-                        color: #a1a1a1;
+                        color: #808080;
                     }
                 }
                 .bottom{
                     display: flex;
                     justify-content: space-between;
-                    font-size: 14px;
+                    font-size: .9em;
                     padding: 0 .3em;
 
                     .price{
-                        font-size: 17px;
+                        font-size: 1.1em;
                         color: $main-color;
                     }
                 }

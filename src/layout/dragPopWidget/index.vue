@@ -14,7 +14,7 @@
                       placement="right"
                     ><span class="tip">
                       <span class="key">账号：</span>
-                      <span class="value" @click="toCopy(setting.account)">15028801092</span>
+                      <span class="value" @click="toCopy(setting.account)">{{ setting.account }}</span>
                       <el-icon @click="toCopy(setting.account)"><CopyDocument /></el-icon>
                   </span></el-tooltip>
                   <el-tooltip
@@ -23,7 +23,7 @@
                       placement="right"
                     ><span class="tip">
                       <span class="key">密码：</span>
-                      <span class="value" @click="toCopy(setting.password)">zt3184182513</span>
+                      <span class="value" @click="toCopy(setting.password)">{{ setting.password }}</span>
                       <el-icon @click="toCopy(setting.password)"><CopyDocument /></el-icon>
                   </span></el-tooltip>
                 </template>
@@ -65,6 +65,7 @@ const toCopy = async (text:string) => {
   .value{
     position: relative;
     padding-right: .3em;
+    cursor: pointer;
   }
   .value:hover:after {
     content: "";
@@ -160,6 +161,7 @@ const toCopy = async (text:string) => {
             position: absolute;
             left: 0;
             top: 35px;
+            cursor: pointer;
             animation: swing 5s linear infinite; /* 定义动画 */
         }
     }

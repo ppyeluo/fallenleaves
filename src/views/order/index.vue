@@ -7,15 +7,15 @@
         <el-card v-else shadow="never" style="margin-bottom: 10px;">
             <div class="nav">
                 <span class="active">全部订单</span>
-                <span>待付款</span>
-                <span>待收货</span>
-                <span>待评价</span>
+                <span @click="undeveloped">待付款</span>
+                <span @click="undeveloped">待收货</span>
+                <span @click="undeveloped">待评价</span>
             </div>
             <div class="content">
                 <div class="header">
                     <el-row>
                         <el-col :span="15">
-                            <el-row> 
+                            <el-row>
                                 <el-col :span="4"></el-col><el-col :span="12"></el-col>
                                 <el-col :span="4">订单详情</el-col><el-col :span="4"></el-col>
                             </el-row>
@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang='ts'>
-import { reqDeleteOrder, reqOrder } from '@/api/order';
+import { reqOrder } from '@/api/order';
 import { OrderItem } from '@/api/order/type';
 import { Result } from '@/api/user/type';
 import { ElMessage } from 'element-plus';
@@ -82,15 +82,22 @@ const getOrder = async () => {
 }
 onMounted(getOrder)
 // 删除订单
-const deleteOrder = async (id:string) => {
-    let result: Result<any> = await reqDeleteOrder(id)
-    if(result.code === 200){
-        getOrder()
+const deleteOrder = async (_id:string) => {
+    if(true){
         ElMessage({
-            type: 'success',
-            message:'删除成功'
+            type: 'warning',
+            message: '系统数据，禁止删除！'
         })
+        return
     }
+    // let result: Result<any> = await reqDeleteOrder(id)
+    // if(result.code === 200){
+    //     getOrder()
+    //     ElMessage({
+    //         type: 'success',
+    //         message:'删除成功'
+    //     })
+    // }
 }
 // 支付方式标签主题
 function payTheme(pay:string){
@@ -116,6 +123,7 @@ function payTheme(pay:string){
             font-size: 15px;
             margin-right: 1em;
             color: black;
+            cursor: pointer;
 
             &.active{
                 color: red;

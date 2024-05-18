@@ -110,6 +110,7 @@ onMounted(getHotRecommend)
             justify-content: space-between;
             padding: 0 10px 20px 0;
             overflow: hidden;
+            cursor: pointer;
 
             .image{
                 width: 130px;

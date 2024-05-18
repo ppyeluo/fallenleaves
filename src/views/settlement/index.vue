@@ -8,7 +8,7 @@
                     <div class="logo"><img src="@/assets/images/logo.png" width="100%"></div>
                     <div class="word">结算页</div>
                 </div>
-                <div class="right">
+                <div class="right" style="background-color: #fff; padding: 1em;border-radius: 1em;">
                     <el-steps style="width: 500px; font-size: 16px;" :active="2" align-center>
                         <el-step title="1.我的购物车" icon="ShoppingCartFull" />
                         <el-step title="2.填写核对订单信息" icon="CircleCheck" />
@@ -76,6 +76,7 @@ onMounted(async () => {
 <style scoped lang='scss'>
 .settlement_container{
     width: 100%;
+    background: $background;
 
     .w{
         width: $type-area-width;

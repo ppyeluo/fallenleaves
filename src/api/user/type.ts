@@ -11,6 +11,8 @@ export interface userInfo{
     phone:string,
     email:string,
     password:string,
+    avatar:string,
+    tag:string
 }
 // 地址
 export interface Address {

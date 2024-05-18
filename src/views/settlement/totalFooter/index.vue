@@ -26,7 +26,7 @@
             <div>寄送至：上海 浦东新区 曹路镇 金海路2360号上海第二工业大学(金海路校区) 收货人：叶 150****1092</div>
         </div>
         <div class="submit">
-            <el-button size="large" type="primary">提交订单</el-button>
+            <el-button size="large" type="primary" @click="router.push('/pay')">提交订单</el-button>
         </div>
     </div>
 </template>
@@ -35,6 +35,9 @@
 defineOptions({ name: 'TotalFooter' })
 import { Ref, computed, inject } from 'vue'
 import { Settlement } from '@/api/commodity/type'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const commodityList = inject<Ref<Settlement[]>>('commodityList')
 const totalPrice = computed(() => commodityList?.value.reduce((accumulator, currentValue) => accumulator + currentValue.count * currentValue.price , 0))

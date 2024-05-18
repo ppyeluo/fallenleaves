@@ -78,6 +78,7 @@ onMounted(getAddressList)
 
         .info{
             display: flex;
+            cursor: pointer;
 
             .summarize{
                 position: relative;

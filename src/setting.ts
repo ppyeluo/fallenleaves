@@ -5,7 +5,7 @@ export default {
     // logo图标
     logo: '/public/rose.ico',
     // 系统提供测试账号
-    account: '15028801092',
+    account: '12312341234',
     // 测试密码
-    password: 'zt3184182513'
+    password: '12345abcde'
 }

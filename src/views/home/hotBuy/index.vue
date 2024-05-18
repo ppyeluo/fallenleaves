@@ -100,6 +100,7 @@ onMounted(getHotBuy)
         .contentItem{
             display: flex;
             margin-right: 1em;
+            cursor: pointer;
 
             .image{
                 width: 78px;

@@ -19,7 +19,9 @@ enum API {
     // 得到搜索页搜索结果
     SEARCHCOMMODITY_URL = '/api/searchCommodity',
     // 获取商品的评论
-    COMMODITYCOMMENTS_URL = '/api/getCommodityComments/'
+    COMMODITYCOMMENTS_URL = '/api/getCommodityComments/',
+    // 给商品的评论点赞
+    LIKECOMMENT_URL = '/api/likeComment'
 }
 
 // 得到商品的详细信息
@@ -40,3 +42,5 @@ export const reqSearch = (intent:string) => request.get<any, Result<SearchResult
 export const reqSearchCommodity = ({ page, pageSize,sortField, sortOrder, intent, type }:SearchCommodity) => request.post<any, Result<SearchCommodity>>(API.SEARCHCOMMODITY_URL, { page, pageSize,sortField, sortOrder }, { params: { intent, type } })
 // 获取商品的评论
 export const reqCommodityComments = (id:string) => request.get<any, Result<CommodityComment[]>>(API.COMMODITYCOMMENTS_URL+`${id}`)
+// 给商品的评论点赞
+export const reqLikeComment = (id:number) => request.get<any, Result<any>>(`${API.LIKECOMMENT_URL}/${id}`)
