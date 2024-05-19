@@ -67,9 +67,10 @@ defineOptions({ name: 'Cart' })
 import { reqAddCart, reqBatchRemoveCart, reqCart, reqRemoveCart } from '@/api/cart';
 import { cartItem } from '@/api/cart/type';
 import { Result } from '@/api/user/type';
-import { ElMessage, ElTable } from 'element-plus';
+import { ElTable } from 'element-plus';
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router';
+import MyMessage from '@/utils/myMessage'
 
 const router = useRouter()
 // 购物车列表
@@ -97,17 +98,17 @@ const updateCart = async (currentV:number, oldV:number, id:string) => {
     if(currentV > oldV){   // 添加
         let result: Result<any> = await reqAddCart({ id, count: currentV-oldV })
         if(result.code === 200){
-            ElMessage({
+            MyMessage({
                 type:'success',
-                message: '添加成功'
+                message: '添加成功！'
             })
         }
     }else{  // 减少
         let result: Result<any> = await reqRemoveCart({ id, count: oldV-currentV })
         if(result.code === 200){
-            ElMessage({
-                type:'success',
-                message: '删除成功'
+            MyMessage({
+                type:'info',
+                message: '删除成功！'
             })
         }
     }
@@ -117,9 +118,9 @@ const deleteCartItem = async (id:string,count:number) => {  // 减少
     let result: Result<any> = await reqRemoveCart({ id, count })
     if(result.code === 200){
         getCart()
-        ElMessage({
-            type:'success',
-            message: '删除成功'
+        MyMessage({
+            type:'info',
+            message: '删除成功！'
         })
     }
 }
@@ -127,13 +128,12 @@ const deleteCartItem = async (id:string,count:number) => {  // 减少
 const batchRemoveCart = async () => {
     if(!hasSelected.value){     
         let numberList = selectedArr.value.map((item:any) => item.commodityId)
-        console.log(numberList);
         
         let result: Result<any> = await reqBatchRemoveCart({numberList})
         if(result.code === 200){
-            ElMessage({
-                type:'success',
-                message: '删除成功'
+            MyMessage({
+                type:'info',
+                message: '删除成功！'
             })
             getCart()
         }

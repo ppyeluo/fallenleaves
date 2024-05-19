@@ -1,13 +1,17 @@
 <template>
     <div class="logo">
-        <img src="@/assets/images/logo.png">
+        <img v-if="!isCustomized" src="@/assets/images/logo.png">
+        <img v-if="isCustomized" src="@/assets/images/logo_dark.png">
     </div>
 </template>
 
 <script setup lang='ts'>
-defineOptions({
-    name: 'Logo'
-})
+defineOptions({ name: 'Logo' })
+import { useRoute } from 'vue-router'
+import { computed } from 'vue'
+
+const route = useRoute()
+const isCustomized = computed(() => route.path == '/customized' ? true : false)
 </script>
 
 <style scoped lang='scss'>

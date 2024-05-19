@@ -1,5 +1,5 @@
 <template>
-    <div class="layout_container">
+    <div class="layout_container" :class="background">
         <div class="layout_sidebar">
             <Logo />
             <el-scrollbar class="scrollbar">
@@ -25,6 +25,11 @@ import Menu from './menu/index.vue'
 import Header from './header/index.vue'
 import Main from './main/index.vue'
 import Login from './login/index.vue'
+import { useRoute } from 'vue-router'
+import { computed } from 'vue'
+
+const route = useRoute()
+const background = computed(() => route.path == '/customized' ? 'customized' :'general')
 </script>
 
 <style scoped lang="scss">
@@ -32,7 +37,14 @@ import Login from './login/index.vue'
     position: relative;
     width: 100%;
     height: 100vh;
-    background: $background;
+    transition: background .3s ease;
+
+    &.general{
+        background: $background;
+    }
+    &.customized{
+        background: $customized-background;
+    }
     
     .layout_sidebar{
         width: $base-sidebar-width;

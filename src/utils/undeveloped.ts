@@ -1,7 +1,7 @@
-import { ElMessage } from "element-plus";
+import MyMessage from '@/utils/myMessage'
 
 export function undeveloped(){
-    ElMessage({
+    MyMessage({
         type: 'info',
         message: '该功能尚未开发'
     })

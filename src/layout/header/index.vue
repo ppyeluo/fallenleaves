@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <Search />
+        <Search v-show="!isCustomized" />
         <User />
     </div>
 </template>
@@ -9,7 +9,11 @@
 defineOptions({ name: 'Header' })
 import Search from './search/index.vue'
 import User from './user/index.vue'
+import { useRoute } from 'vue-router'
+import { computed } from 'vue'
 
+const route = useRoute()
+const isCustomized = computed(() => route.path == '/customized' ? true : false)
 </script>
 
 <style scoped lang='scss'>

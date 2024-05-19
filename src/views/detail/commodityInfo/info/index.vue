@@ -17,11 +17,11 @@
                 />
             </div>
         </div>
-        <div class="item">
+        <div class="item" v-if="commodityDetail?.desc">
             <div class="title">描述</div><div>：</div>
             <div class="content">{{ commodityDetail?.desc }}</div>
         </div>
-        <div class="item">
+        <div class="item flowerLanguage" v-if="commodityDetail?.flowerLanguage">
             <div class="title">花语</div><div>：</div>
             <div class="content">{{ commodityDetail?.flowerLanguage }}</div>
         </div>
@@ -31,15 +31,15 @@
         </div>
         <div class="item">
             <div class="title">型号</div><div>：</div>
-            <div class="content">{{ commodityDetail?.size }}</div>
+            <div class="content"><span style="font-size: .8em;color: #808080; margin-right: .2em;">直径</span>{{ commodityDetail?.size }}<span style="font-size: .8em;color: #808080; margin-left: .2em;">cm</span></div>
         </div>
         <div class="item">
             <div class="title">库存</div><div>：</div>
-            <div class="content">{{ commodityDetail?.bank }}件</div>
+            <div class="content">{{ commodityDetail?.bank }}<span style="font-size: .8em;color: #808080; margin-left: .2em;">件</span></div>
         </div>
         <div class="item">
             <div class="title">已售</div><div>：</div>
-            <div class="content">{{ commodityDetail?.sold }}</div>
+            <div class="content">{{ commodityDetail?.sold }}<span style="font-size: .8em;color: #808080; margin-left: .2em;">件</span></div>
         </div>
         <div class="item">
             <div class="title">数量</div><div>：</div>
@@ -47,7 +47,7 @@
                 <el-input-number v-model="count" size="small" :min="1" :max="commodityDetail?.bank" />
             </div>
         </div>
-        <div class="item">
+        <div class="item price">
             <div class="title">单价</div><div>：</div>
             <div class="content">&yen; {{ commodityDetail?.price }}</div>
         </div>
@@ -69,7 +69,7 @@ import type { addCollect } from '@/api/collect/type';
 import type { Commodity } from '@/api/commodity/type'
 import { Result } from '@/api/user/type';
 import useUserStore from '@/store/modules/user';
-import { ElMessage } from 'element-plus';
+import MyMessage from '@/utils/myMessage'
 import { ref } from 'vue';
 import { Ref, inject } from 'vue'
 import { useRouter } from 'vue-router';
@@ -92,7 +92,7 @@ const gotoBuy = () => {
 // 将商品加入购物车
 const addCart = async () => {
     if(!userStore.token){
-        ElMessage({
+        MyMessage({
             type: 'warning',
             message: '请登录后再试！'
         })
@@ -103,7 +103,7 @@ const addCart = async () => {
         count: count.value
     })
     if(result.code === 200){
-        ElMessage({
+        MyMessage({
             type: 'success',
             message: '加入购物车成功！'
         })
@@ -112,7 +112,7 @@ const addCart = async () => {
 // 将商品加入收藏
 const addCollect = async () => {
     if(!userStore.token){
-        ElMessage({
+        MyMessage({
             type: 'warning',
             message: '请登录后再试！'
         })
@@ -120,14 +120,14 @@ const addCollect = async () => {
     }
     let result: Result<addCollect> = await reqAddCollect(commodityDetail!.value.id)
     if(result.data.isSuccess){
-        ElMessage({
+        MyMessage({
             type: 'success',
             message: '收藏成功！'
         })
     }else{
-        ElMessage({
+        MyMessage({
             type: 'warning',
-            message: '商品已经收藏过了'
+            message: '商品已经收藏过了！'
         })
     }
 }
@@ -139,7 +139,8 @@ const addCollect = async () => {
 
     .item{
         display: flex;
-        margin-top: 10px;
+        margin-top: .8em;
+        align-items: baseline;
 
         .title{
             width: 4.2em;
@@ -152,6 +153,27 @@ const addCollect = async () => {
 
         &.rate{
             align-items: flex-end;
+        }
+
+        &.flowerLanguage .content{
+            position: relative;
+            padding: 10px;
+            overflow: hidden;
+            background: 
+                linear-gradient(to left, transparent -100px,#f6eef0 300px),
+                linear-gradient(to right bottom, #D2EEF9 ,#f6eef0, #FFD1DE, #f39eb3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        &.price{
+            padding-top: .5em;
+            padding-bottom: .5em;
+
+            .content{
+                font-size: 1.1em;
+                color: #ff6b6b;
+                font-weight: 600;
+            }
         }
     }
     .operate{
@@ -175,25 +197,22 @@ const addCollect = async () => {
             outline: none;
         }
 
-        .btn_cost {
-            border: none;
-            background: linear-gradient(0deg, rgba(251,33,117,1) 0%, rgba(234,76,137,1) 100%);
+        .btn_cost, .btn_cart {
+            background: linear-gradient(to right, #f39eb3, #ffb3c1);
             color: #fff;
-            overflow: hidden;
-            margin-right: 1em;
-        }
-        .btn_cost:hover{
-            opacity: .7;
-        }
-        .btn_cart {
             border: none;
-            background: linear-gradient(0deg, rgba(251,33,117,1) 0%, rgba(234,76,137,1) 100%);
-            color: #fff;
-            overflow: hidden;
-            margin-right: 1em;
+            border-radius: 16px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-right: .8em;
         }
-        .btn_cart:hover{
-            opacity: .7;
+        .btn_cost:hover, .btn_cart:hover{     
+            background: linear-gradient(to right, #e980a0, #ff9aae);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
         }
     }
 }

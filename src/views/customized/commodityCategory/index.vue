@@ -14,6 +14,9 @@ const commodityCategoryPieChart = ref()
 let option = reactive({
   title: {  // 标题
     text: '花束类别分布图',
+    textStyle: {
+        color: '#4a00e0'
+    }
   },
   tooltip: {  // 提示框
     trigger: 'item'

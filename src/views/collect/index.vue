@@ -33,7 +33,7 @@
 defineOptions({ name: 'Collect' })
 import { reqCollect, reqRemoveCollect } from '@/api/collect';
 import { CollectItem, Result } from '@/api/collect/type'
-import { ElMessage } from 'element-plus';
+import MyMessage from '@/utils/myMessage'
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -51,8 +51,8 @@ const removeCollect = async (id:string) => {
     let result: Result<any> = await reqRemoveCollect(id)
     if(result.code === 200){
         getCollect()
-        ElMessage({
-            type :'success',
+        MyMessage({
+            type :'info',
             message:'删除成功！'
         })
     }

@@ -13,7 +13,10 @@ import { ref,onMounted, reactive, watchEffect} from "vue"
 const sold_ranking_container = ref()
 let option = reactive({
     title: {
-        text: '热词搜索',
+        text: '实时搜索热度',
+        textStyle: {
+            color: '#4a00e0'
+        }
     },
     series: [{
         type: 'wordCloud',

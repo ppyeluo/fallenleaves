@@ -34,7 +34,7 @@
 <script setup lang='ts'>
 import useClipboard from 'vue-clipboard3'
 import setting from '@/setting'
-import { ElMessage } from 'element-plus';
+import MyMessage from '@/utils/myMessage';
 import { onMounted, ref } from 'vue';
 import useUserStore from '@/store/modules/user'
 const userStore = useUserStore()
@@ -49,9 +49,9 @@ onMounted(() => {
 })
 const toCopy = async (text:string) => {
   await toClipboard(text)
-  ElMessage({
-    message: '已复制',
+  MyMessage({
     type: 'success',
+    message: '复制成功!',
   })
 }
 </script>

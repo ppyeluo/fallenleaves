@@ -63,7 +63,7 @@ import { Result } from '@/api/user/type';
 import { ref, onMounted, computed } from 'vue';
 import { undeveloped } from '@/utils/undeveloped.ts'
 import { useRoute } from 'vue-router';
-import { ElMessage } from 'element-plus';
+import MyMessage from '@/utils/myMessage'
 
 const route = useRoute()
 // 全部评论
@@ -90,7 +90,7 @@ const getComments = async () => {
 let flag = false
 const likeComment = async (id:number) => {
     if(flag){
-        ElMessage({
+        MyMessage({
             type: 'warning',
             message: '您已经点过赞了！'
         })
@@ -98,7 +98,7 @@ const likeComment = async (id:number) => {
     }
     let res:Result<any> = await reqLikeComment(id)
     if(res.code == 200){
-        ElMessage({
+        MyMessage({
             type: 'success',
             message: '点赞成功！'
         })

@@ -33,7 +33,7 @@
                             <div class="orderId">订单号： <span>{{ item.id }}</span></div>
                         </div>
                         <div class="right">
-                            <el-icon @click="deleteOrder(item.id)"><Delete /></el-icon>
+                            <el-icon @click="deleteOrder(item.id)" class="delete"><Delete /></el-icon>
                         </div>
                     </div>
                     <div class="main">
@@ -67,7 +67,7 @@
 import { reqOrder } from '@/api/order';
 import { OrderItem } from '@/api/order/type';
 import { Result } from '@/api/user/type';
-import { ElMessage } from 'element-plus';
+import MyMessage from '@/utils/myMessage'
 import { onMounted, ref } from 'vue';
 import { undeveloped } from '@/utils/undeveloped';
 
@@ -85,8 +85,8 @@ onMounted(getOrder)
 // 删除订单
 const deleteOrder = async (_id:string) => {
     if(true){
-        ElMessage({
-            type: 'warning',
+        MyMessage({
+            type: 'error',
             message: '系统数据，禁止删除！'
         })
         return
@@ -94,7 +94,7 @@ const deleteOrder = async (_id:string) => {
     // let result: Result<any> = await reqDeleteOrder(id)
     // if(result.code === 200){
     //     getOrder()
-    //     ElMessage({
+    //     MyMessage({
     //         type: 'success',
     //         message:'删除成功'
     //     })
@@ -171,6 +171,15 @@ function payTheme(pay:string){
                     .orderId{
                         span{
                             color: black;
+                        }
+                    }
+                }
+                .right{
+                    .delete{
+                        transition: 0.4s;
+                        cursor: pointer;
+                        &:hover{
+                            color: red;
                         }
                     }
                 }

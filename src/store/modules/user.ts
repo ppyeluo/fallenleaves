@@ -20,7 +20,7 @@ const useUserStore = defineStore('user', () => {
             SET_TOKEN((result.data as string))
             loginDialogVisible.value = false
             MyMessage({
-                message:'登录成功',
+                message:'登录成功！',
                 type:'success',
             })
             return 'ok'
@@ -49,8 +49,8 @@ const useUserStore = defineStore('user', () => {
             token.value = null
             REMOVE_TOKEN()
             MyMessage({
-                message:'退出登录成功',
-                type:'success',
+                message:'退出登录成功！',
+                type:'info',
             })
         }
     }

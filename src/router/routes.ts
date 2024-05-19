@@ -16,7 +16,7 @@ export default [
                     hidden: false,  // 是否在首页左侧菜单栏隐藏
                     icon: 'HomeFilled',  // 名称前缀图标
                     needToken: false,   // 进入该路由是否需要用户登录
-                    dragPopWidget: true, // 是否展示提示下拉挂件，仅主页展示
+                    dragPopWidget: true, // 是否展示提示下拉挂件
                 },
             },
             {
@@ -25,7 +25,7 @@ export default [
                 meta: {
                     title: '购物车',
                     icon: 'ShoppingCart',
-                    needToken: true,  
+                    needToken: true,
                 },
             },
             {
@@ -52,7 +52,8 @@ export default [
                 meta: {
                     title: '私人定制',
                     icon: 'MagicStick',
-                    needToken: false,  
+                    needToken: false,
+                    dragPopWidget: true, // 是否展示提示下拉挂件
                 }
             },
             {
@@ -61,7 +62,8 @@ export default [
                 meta: {
                     title: '商品详情页',
                     hidden: true,
-                    needToken: false,  
+                    needToken: false, 
+                    dragPopWidget: true, // 是否展示提示下拉挂件 
                 }
             },
             {
@@ -71,6 +73,7 @@ export default [
                     title: '商品搜索',
                     hidden: true,
                     needToken: false,  
+                    dragPopWidget: true, // 是否展示提示下拉挂件
                 }
             }
         ]

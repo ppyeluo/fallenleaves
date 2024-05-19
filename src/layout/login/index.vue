@@ -36,7 +36,9 @@
             </div>
         </div>
     </el-dialog>
-    <DragPopWidget v-if="route.meta.dragPopWidget" />
+    <KeepAlive>
+        <DragPopWidget v-if="route.meta.dragPopWidget" />
+    </KeepAlive>
 </template>
 
 <script setup lang='ts'>

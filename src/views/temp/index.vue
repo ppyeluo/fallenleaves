@@ -1,76 +1,38 @@
 <template>
-  <div class="pop_message_container">
-    <div class="pop_message" :class="`message_${t}`" v-if="visible">
-      <div class="svg">
-        <SvgIcon name="halfSurroundFlower" width="10em" height="50px" />
-      </div>
-      <span class="text">Hello World!</span>
-    </div>
+  <div class="temp_container">
+    <el-button type="primary" @click="MyMessage({ type: 'success', message: 'hello' })">message</el-button>
+    <el-button type="primary" @click="MyMessage({ type: 'warning', message: 'warning' })">warning</el-button>
+    <el-button type="primary" @click="MyMessage({ type: 'info', message: 'hello' })">info</el-button>
+    <el-button type="primary" @click="MyMessage({ type: 'error', message: 'hello' })">error</el-button>
+
+    <div class="demo">Hello World!</div>
   </div>
 </template>
 
 <script setup lang="ts">
-defineOptions({ name: 'MyMessage' })
-import { ref } from 'vue'
-
-// 控制消息是否可见
-const visible = ref(true)
-let t = 'success'
+defineOptions({ name: 'Temp' })
+import MyMessage from '@/utils/myMessage';
 </script>
 
 <style scoped lang="scss">
-.pop_message_container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+.demo {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(45deg, #D2EEF9, #f6eef0, #FFD1DE, #ff6b6b, #f39eb3);
+  background-size: 400% 400%;
+  animation: flow 15s ease infinite;
+}
 
-  .pop_message {
-    position: relative;
-    margin-top: 2em;
-    padding: 1em 1.5em;
-    border-radius: 0.3em;
-    animation: move 0.38s linear forwards;
-    z-index: 9999;
-
-    &.message_success{
-      color: #67C23A;
-      background-color: rgb(240, 249, 235);
-      border-color: rgb(225, 243, 216);
-
-      .svg{
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
-    }
-    &.message_warning{
-      color: #E6A23C;
-      background-color: rgb(253, 246, 236);
-      border-color: rgb(250, 236, 216);
-    }
-    &.message_error{
-      color: #F56C6C;
-      background-color: rgb(254, 240, 240);
-      border-color: rgb(253, 226, 226);
-    }
-
-    @keyframes move {
-      0% {
-        transform: translate3d(0, -75px, 0);
-        opacity: 0.16;
-      }
-      50% {
-        opacity: 0.68;
-      }
-      100% {
-        transform: none;
-        opacity: 1;
-      }
-    }
+@keyframes flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
+
 </style>

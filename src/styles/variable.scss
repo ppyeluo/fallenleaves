@@ -4,8 +4,10 @@
 $background: 
     linear-gradient(to bottom, transparent -100px,#f6eef0 300px),
     linear-gradient(to right, #D2EEF9,#FFD1DE);
-// 项目背景颜色
+// 项目背景颜色，已弃用，改用上面的背景
 $background-color: #f6eef0;
+// 私人定制页主题背景
+$customized-background: #ff6b6b;
 // 项目主色调
 $main-color: #f39eb3;
 
