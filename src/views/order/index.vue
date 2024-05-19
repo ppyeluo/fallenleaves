@@ -1,6 +1,6 @@
 <template>
-    <NavTitle title="订单中心" />
     <div class="order_container">
+        <NavTitle title="订单中心" />
         <section v-if="orderList.length === 0">
             <el-empty description="您的订单为空" :image-size="300"/>
         </section>
@@ -77,7 +77,6 @@ const getOrder = async () => {
     let result: Result<OrderItem[]> = await reqOrder()
     if(result.code === 200){
         orderList.value = result.data
-        console.log(orderList.value);
     }
 }
 onMounted(getOrder)

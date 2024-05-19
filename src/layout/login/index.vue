@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="userStore.loginDialogVisible" width="30%" @close="closeDialog" z-index="10">
+    <el-dialog v-model="userStore.loginDialogVisible" width="30%" @close="closeDialog" :z-index="10">
         <div v-if="state === 'login'" class="login_container">
             <div class="title"><span class="active">登录</span>&nbsp;&frasl;&nbsp;<span @click="state = 'register'">注册</span></div>
             <div class="bg_image"></div>
@@ -65,11 +65,8 @@ let registerForm = reactive({
 const login = async () => {
     await userStore.userLogin(loginForm)
 }
-const register = () => {
-    let result: any = userStore.userRegister(registerForm)
-    if(result.code === 200){
-        console.log('注册成功')
-    }
+const register = async () => {
+    await userStore.userRegister(registerForm)
 }
 // 关闭登录框时，清空表单数据，设置默认打开为login
 const closeDialog = () => {

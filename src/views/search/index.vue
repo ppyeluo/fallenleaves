@@ -1,6 +1,6 @@
 <template>
-    <NavTitle :title="`搜索 - '${route.query.intent}'`" />
-    <div class="search_container" ref="search_container">     
+    <div class="search_container" ref="search_container">
+        <NavTitle :title="`搜索 - '${searchCommodityForm.intent}'`" />
         <el-card shadow="never" style="margin-bottom: 10px;">
             <template #default>
                 <div class="option">

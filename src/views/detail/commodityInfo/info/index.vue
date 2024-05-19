@@ -8,7 +8,7 @@
             <div class="title">评分</div><div>：</div>
             <div class="content">
                 <el-rate
-                    v-model="commodityDetail!.score"
+                    :model-value="commodityDetail!.score"
                     disabled
                     show-score
                     size="small"

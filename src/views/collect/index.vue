@@ -1,6 +1,6 @@
 <template>
-    <NavTitle title="我的收藏" />
     <section class="collect_container">
+        <NavTitle title="我的收藏" />
         <section v-if="collectList.length === 0">
             <el-empty description="您的收藏为空" :image-size="300"/>
         </section>
@@ -20,7 +20,7 @@
                             content="从我的收藏中移除"
                             placement="top-end"
                         >  
-                            <el-icon style="margin-top: 10px;" @click="removeCollect(item.commodityId)"><Delete /></el-icon>
+                            <el-icon style="margin-top: 10px;" @click.stop="removeCollect(item.commodityId)"><Delete /></el-icon>
                         </el-tooltip>
                     </div>
                 </div>
@@ -33,6 +33,7 @@
 defineOptions({ name: 'Collect' })
 import { reqCollect, reqRemoveCollect } from '@/api/collect';
 import { CollectItem, Result } from '@/api/collect/type'
+import { ElMessage } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -43,16 +44,17 @@ let collectList = ref<CollectItem[]>([])
 const getCollect = async () => {
     let result: Result<CollectItem[]> = await reqCollect()
     if(result.code === 200){
-        collectList.value = result.data
-        console.log(collectList.value);
-        
+        collectList.value = result.data        
     }
 }
 const removeCollect = async (id:string) => {
     let result: Result<any> = await reqRemoveCollect(id)
     if(result.code === 200){
-        console.log('删除成功')
         getCollect()
+        ElMessage({
+            type :'success',
+            message:'删除成功！'
+        })
     }
 }
 onMounted(getCollect)

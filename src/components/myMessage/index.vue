@@ -2,7 +2,11 @@
 <div class="pop_message_container">
     <div class="pop_message" :class="`message_success`" v-if="visible">
       <div class="svg">
-        <SvgIcon name="halfSurroundFlower" width="50px" height="50px" />
+        <svg :style="{width:'50px', height:'50px'}">
+            <!-- xlink:href执行用哪一个图标，属性值务必#icon-图标名字 -->
+            <!-- use标签fill属性可以设置图标的颜色 -->
+            <use :xlink:href="`#icon-halfSurroundFlower`"></use>
+        </svg>
       </div>
       <span class="text">{{ message }}</span>
     </div>

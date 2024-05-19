@@ -18,16 +18,13 @@
   padding-bottom: 0;
   min-height: calc(100vh - $base-footer-height - $base-header-height);
 }
-.fade-enter-from {
-  opacity: 0;
-  transform: scale(0);
-}
-.fade-enter-active {
-  transition: all 1s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
 }
 
-.fade-enter-to {
-  opacity: 1;
-  transform: scale(1);
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

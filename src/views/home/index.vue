@@ -1,4 +1,5 @@
 <template>
+  <div class="home_container">
     <Banner />
     <section style="padding: 0 15px;">
       <el-row :gutter="30" >
@@ -9,6 +10,7 @@
     <section style="padding: 0 15px;">
       <HotRecommend />
     </section>
+  </div>
 </template>
 
 <script setup lang='ts'>

@@ -1,12 +1,14 @@
 <template>
-    <NavTitle :title="commodityDetail.name" />
-    <CommodityInfo />
-    <section style="padding: 0 10px;">
-        <el-row :gutter="20">
-            <el-col :span="16"><Comment /></el-col>
-            <el-col :span="8"><Recommend /></el-col>
-        </el-row>
-    </section>
+    <div class="detail_container">
+        <NavTitle :title="commodityDetail.name" />
+        <CommodityInfo />
+        <section style="padding: 0 10px;">
+            <el-row :gutter="20">
+                <el-col :span="16"><Comment /></el-col>
+                <el-col :span="8"><Recommend /></el-col>
+            </el-row>
+        </section>
+    </div>
 </template>
 
 <script setup lang='ts'>

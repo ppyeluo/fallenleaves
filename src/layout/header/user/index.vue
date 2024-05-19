@@ -75,7 +75,7 @@
         effect="light"
         content="点我去登录"
         placement="bottom-end"
-        show-after="300"
+        :show-after="300"
       >
         <el-avatar @click="userStore.loginDialogVisible = true" style="margin-left: 30px;" icon="UserFilled" />
       </el-tooltip>

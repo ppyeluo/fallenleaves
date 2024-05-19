@@ -35,7 +35,7 @@ const useUserStore = defineStore('user', () => {
             SET_TOKEN((result.data as string))
             loginDialogVisible.value = false
             MyMessage({
-                message:'注册成功',
+                message:'注册成功！',
                 type:'success',
             })
             return 'ok'

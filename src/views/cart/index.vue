@@ -1,6 +1,6 @@
 <template>
-    <NavTitle title="我的购物车" />
     <div class="cart_container">
+        <NavTitle title="我的购物车" />
         <section v-if="cartList.length === 0">
             <el-empty description="您的购物车为空" :image-size="300"/>
         </section>

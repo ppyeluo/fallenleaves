@@ -1,6 +1,6 @@
 <template>
-    <NavTitle title="私人定制" />
     <div class="customized_container">
+        <NavTitle title="私人定制" />
         <el-row>
             <!-- 热销榜 -->
             <el-col :span="12"><div class="hot_sold"><HotSold /></div></el-col>
