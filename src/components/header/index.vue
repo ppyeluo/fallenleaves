@@ -39,7 +39,7 @@ const router = useRouter()
         height: 100%;
         margin: 0 auto;
         font-size: 14px;
-        padding: .4em 0;
+        padding: .4em 1em .4em 1em;
         color: #232121;
         .left{
             display: flex;

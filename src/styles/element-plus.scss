@@ -8,3 +8,15 @@
 );
 
 @use "element-plus/theme-chalk/src/index.scss" as *;
+
+// 引入字体
+@font-face {
+  font-family: 'PuHuiTi';
+  src: url('@/assets/fonts/Alibaba_PuHuiTi_2.0_55_Regular_55_Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'PuHuiTi', sans-serif;
+}

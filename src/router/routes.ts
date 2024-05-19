@@ -100,5 +100,13 @@ export default [
         meta: {
             title: 'temp'
         }
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'any',
+        component: () => import('@/views/404/index.vue'),
+        meta: {
+            title: '出错啦！'
+        }
     }
 ]

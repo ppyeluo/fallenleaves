@@ -1,6 +1,6 @@
 import axios from 'axios'
 import type { AxiosInstance, InternalAxiosRequestConfig, AxiosError, AxiosResponse } from 'axios'
-import { ElMessage } from 'element-plus'
+import MyMessage from '@/utils/myMessage'
 import useUserStore from '@/store/modules/user'
 import { REMOVE_TOKEN } from './token'
 
@@ -33,12 +33,12 @@ request.interceptors.response.use((response:AxiosResponse) => {
     if(code == 401){
         REMOVE_TOKEN()
         userStore.token = null
-        ElMessage({
+        MyMessage({
             type: 'warning',
             message: '登录过期'
         })
     }else if(code == 500){
-        ElMessage({
+        MyMessage({
             type: 'error',
             message: '服务器内部错误'
         })
