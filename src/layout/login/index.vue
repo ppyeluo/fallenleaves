@@ -21,13 +21,13 @@
             <div class="content" @keyup.enter="register">
                 <el-form>
                     <el-form-item>
-                        <el-input v-model="registerForm.phone" prefix-icon="User" placeholder="请输入您的手机号"></el-input>
+                        <el-input v-model="registerForm.phone" disabled prefix-icon="User" placeholder="请输入您的手机号"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-input v-model="loginForm.password" prefix-icon="Lock" type="password" show-password placeholder="请输入您的密码"></el-input>
+                        <el-input v-model="registerForm.password" disabled prefix-icon="Lock" type="password" show-password placeholder="请输入您的密码"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-input v-model="registerForm.code" prefix-icon="Promotion" placeholder="请输入您的验证码">
+                        <el-input v-model="registerForm.code" disabled prefix-icon="Promotion" placeholder="请输入您的验证码">
                             <template #append><span>发送验证码</span></template>
                         </el-input>
                     </el-form-item>
@@ -96,6 +96,9 @@ const closeDialog = () => {
     align-items: baseline;
     margin-top: 10%;
     margin-left: 10%;
+    span{
+        cursor: pointer;
+    }
 
     .active{
         color: $main-color;

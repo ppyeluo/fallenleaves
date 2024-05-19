@@ -4,6 +4,8 @@ import { ElMessage } from 'element-plus'
 import useUserStore from '@/store/modules/user'
 import { REMOVE_TOKEN } from './token'
 
+
+const userStore = useUserStore()
 const request:AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_SERVE,
     headers: {
@@ -13,7 +15,6 @@ const request:AxiosInstance = axios.create({
 })
 
 request.interceptors.request.use((config:InternalAxiosRequestConfig) => {
-    const userStore = useUserStore()
     if(userStore.token){
         config.headers.Authorization = `Bearer ${userStore.token}`
     }
@@ -31,9 +32,10 @@ request.interceptors.response.use((response:AxiosResponse) => {
     const code = error.response?.status
     if(code == 401){
         REMOVE_TOKEN()
+        userStore.token = null
         ElMessage({
-            type: 'error',
-            message: 'TOKEN过期'
+            type: 'warning',
+            message: '登录过期'
         })
     }else if(code == 500){
         ElMessage({

@@ -11,6 +11,7 @@ const useUserStore = defineStore('user', () => {
 
     // 存储token令牌
     let token = ref<string | null>(GET_TOKEN())
+    
 
     const userLogin = async (data:any) => {    // 用户登录
         let result: Result<any> = await reqLogin(data)
