@@ -2,7 +2,7 @@
     <div class="recommend">
         <h3 class="title">为您推荐</h3>
         <div class="content">
-            <div class="item" v-for="i in recommendCommodity">
+            <div class="item" @click="changeCommodity(i.id)" v-for="i in recommendCommodity">
                 <div class="picture">
                     <el-image style="width: 100px; height: 100px;border-radius: 10px;" :src="i.picture" />
                 </div>
@@ -26,7 +26,16 @@ import { Commodity } from '@/api/commodity/type';
 import { Result } from '@/api/user/type';
 import { onMounted, ref } from 'vue';
 
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
+// 打开新的详情页
+const changeCommodity = (id:string) => {
+    router.push(`/detail?id=${id}`)
+    window.location.reload()
+}
 let recommendCommodity = ref<Commodity[]>([])
+// 得到推荐列表
 const getRecommendCommodity = async () => {
     let result: Result<Commodity[]> = await reqHotRecommend(1)
     if(result.code === 200){
@@ -46,6 +55,7 @@ onMounted(getRecommendCommodity)
         .item{
             display: flex;
             margin-bottom: 10px;
+            cursor: pointer;
 
             .info{
                 display: flex;
