@@ -7,6 +7,9 @@ import { compression } from 'vite-plugin-compression2'
 // 图片压缩
 import viteImagemin from 'vite-plugin-imagemin'
 
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -16,6 +19,13 @@ export default defineConfig({
       iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
       // 指定symbolId格式
       symbolId: 'icon-[dir]-[name]'
+    }),
+    Components({
+      dts: true,
+      dirs: ['src/components'], // 按需加载的文件夹
+      resolvers: [
+          ElementPlusResolver(),  // ElementPlus按需加载
+      ]
     }),
     //开启Gzip压缩
     compression({
