@@ -49,7 +49,9 @@
                             <el-col :span="3" class="receiver"><el-icon><User /></el-icon>&nbsp;云深不知处</el-col>
                             <el-col :span="2" class="price">
                                 <span>&yen;{{ item.totalPrice }}</span>
-                                <div class="tag"><el-tag :type="payTheme(item.paymentMethod)">{{ item.paymentMethod }}</el-tag></div>
+                                <div class="tag">
+                                    <span :class="payTheme(item.paymentMethod)">{{ item.paymentMethod }}</span>
+                                </div>
                             </el-col>
                             <el-col :span="2" class="status">{{ item.status }}</el-col>
                             <el-col :span="2" class="operate" @click="undeveloped">再次购买</el-col>
@@ -101,13 +103,11 @@ const deleteOrder = async (_id:string) => {
 // 支付方式标签主题
 function payTheme(pay:string){
     if(pay == '微信支付'){
-        return 'success'
+        return 'weixin'
     }else if(pay == '支付宝'){
-        return 'primary'
+        return 'zhifubao'
     }else if(pay == '云闪付'){
-        return 'danger'
-    }else{
-        return 'success'
+        return 'yunshanfu'
     }
 }
 </script>
@@ -211,6 +211,29 @@ function payTheme(pay:string){
             }
             .price .tag{
                 padding-top: .5em;
+            }
+            .tag {
+                span{                                        
+                    display: inline-block;
+                    background-color: #f0f0f0;
+                    color: #fff;
+                    font-size: 14px;
+                    border: 1px solid #cccccc;
+                    font-weight: 500;
+                    padding: 6px 12px;
+                    border-radius: 4px;
+                    cursor: default;
+
+                    &.zhifubao{
+                        background-color: rgba(0, 160, 233, 1);
+                    }
+                    &.weixin{
+                        background-color: rgba(0, 187, 41, 1);
+                    }
+                    &.yunshanfu{
+                        background-color: rgba(0, 95, 170, 1);
+                    }
+                }
             }
             .operate{
                 cursor: pointer;
