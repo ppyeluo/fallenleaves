@@ -81,11 +81,14 @@ export default defineConfig({
         chunkFileNames: 'js/[name]-[hash].js', // 引入文件名的名称
         entryFileNames: 'js/[name]-[hash].js', // 包的入口文件名称
         assetFileNames: '[ext]/[name]-[hash].[ext]', // 资源文件像 字体，图片等
-        manualChunks(id) {  // 最小化拆分包
-          if (id.includes('node_modules')) {
-            return id.toString().split('node_modules/')[1].split('/')[0].toString();
-          }
-        }
+        manualChunks: { // 将vue，pinia，vue-router提取到名为vue的js文件中
+          vue: ['vue', 'pinia', 'vue-router'],
+        },
+        // manualChunks(id) {  // 最小化拆分包
+        //   if (id.includes('node_modules')) {
+        //     return id.toString().split('node_modules/')[1].split('/')[0].toString();
+        //   }
+        // }
       }
     }
   }

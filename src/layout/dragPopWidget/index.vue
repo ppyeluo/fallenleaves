@@ -4,7 +4,7 @@
             <div class="poptip_container">
               <div class="poptip_item">点我获取测试账号！😊</div>
             </div>
-            <div class="branch"></div>     
+            <div class="branch"></div>
             <el-tooltip effect="light" placement="right">
                 <div class="flower"><SvgIcon name="sunflower" width="50px" height="50px" /></div>
                 <template #content>
